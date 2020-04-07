@@ -1,3 +1,8 @@
+*.csv
+stillinger_all_merged_isco08.parquet
+.DS_Store
+
+.Rproj*
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

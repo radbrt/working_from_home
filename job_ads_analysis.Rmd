@@ -1,0 +1,226 @@
+---
+title: "Exploring remote work from job ads"
+author: "Henning Holgersen"
+date: "2020-04-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(digits=2)
+options(scipen=999)
+
+# Labels for 1-digit ISCO
+ass_c <- c('0'='Armed forces and unspecified', 
+           '1'='Managers', 
+           '2'='Academics', 
+           '3'='Technicians and associate professionals', 
+           '4'='clerical support workers',
+           '5'= 'Service and sales workers',
+           '6'='Skilled agricultural, forestry and fishery workers',
+           '7'='Craft and related trades workers',
+           '8'='Plant and machine operators and assemblers',
+           '9'='Elementary Occupations')
+
+
+
+```
+
+Based on the norwegian welfare administration (NAV) data from 2012 to march 2019, we explore how remote work is featured in job ads. Note that the welfare administration only has an approximately complete picture of announced vacancies starting in 2017.
+
+## Loading data
+
+The data we are working with are too large to be included in a git repo, but as it is open data, it will be made available online.
+
+```{r prepare_data}
+library(tidyverse)
+library(arrow)
+library(DT)
+ads <- read_parquet('data/stillinger_all_merged_isco08.parquet')
+
+
+ads %>% 
+  mutate(wfh = grepl("hjemmekontor", stillingsbeskrivelse_vasket, ignore.case=T )) %>% 
+  select(isco_versjon, yrkeskode, yrke, wfh, arbeidssted_kommunenummer, statistikk_aar_mnd, bedrift_naring_primar_kode) -> wfh
+
+```
+
+The first month of data is `r min(ads$statistikk_aar_mnd)`, and the last month of data is `r max(ads$statistikk_aar_mnd)`, and this dataset contains a total of `r nrow(ads)` job ads.
+
+The `wfh` variable that was generated indicates wether the ad text mentions the word "hjemmekontor", in which case we can assume that working from home at least part of the time is a possibility. There are probably many jobs where remote is still an option but where the text doensn't mention it, or where the text uses different language. We will try to adjust the language we search for, but for now we want to establish a baseline and explore the trendlines.
+
+
+```{r wfh_rate_time}
+
+wfh %>% 
+  mutate(statistikk_aar_mnd = parse_date(statistikk_aar_mnd, format='%Y%m')) %>% 
+  group_by(statistikk_aar_mnd) %>% 
+  summarize(wfh_share = 100*sum(wfh)/n(), ads_in_period = n(), wfh_in_period =sum(wfh) ) %>% 
+  ungroup() %>% 
+  ggplot(aes(statistikk_aar_mnd, wfh_share)) + 
+  geom_point() + 
+  geom_smooth() 
+```
+
+There are in total `r sum(wfh$wfh)` ads that mention the term "hjemmekontor".
+
+With the exception of a few outliers (likely caused by large-hires by single employers in combination with slow months), less than half a percent of all ads have mentioned the word "hjemmekontor". This is not very informative itself, but we can identify a trend where the term has become more common (although with a substantial dip in 2015/2016)
+
+As a control, we also check the volume of job ads.
+
+```{r}
+wfh %>% 
+  mutate(statistikk_aar_mnd = parse_date(statistikk_aar_mnd, format='%Y%m')) %>% 
+  group_by(statistikk_aar_mnd) %>% 
+  summarize(wfh_share = 100*sum(wfh)/n(), ads_in_period = n(), wfh_in_period =sum(wfh) ) %>% 
+  ungroup() %>% 
+  ggplot(aes(statistikk_aar_mnd, ads_in_period)) + 
+  geom_point() + 
+  geom_smooth() +
+  xlab("År") +
+  ylab("Antall annonser pr måned")
+```
+
+
+There is never an alarmingly low level of ads, but remember that the uptick in recent years are in part due to more comprehensive data from the welfare administration.
+
+We can extend the search to include another term that is often used in conjunction with remote possibilities, "hjemmefra", as often included in phrases like "jobb hjemmefra" or "arbeid hjemmefra".
+
+```{r}
+
+ads %>% 
+  mutate(wfh = grepl("hjemmekontor|hjemmefra", stillingsbeskrivelse_vasket, ignore.case=T )) %>% 
+  select(isco_versjon, yrkeskode, yrke, wfh, arbeidssted_kommunenummer, arbeidssted_fylke, yrke_grovgruppe, statistikk_aar_mnd, bedrift_naring_primar_kode) -> wfh_extended
+
+
+wfh_extended %>% 
+  mutate(statistikk_aar_mnd = parse_date(statistikk_aar_mnd, format='%Y%m')) %>% 
+  group_by(statistikk_aar_mnd) %>% 
+  summarize(wfh_share = 100*sum(wfh)/n(), ads_in_period = n(), wfh_in_period =sum(wfh) ) %>% 
+  ungroup() %>% 
+  ggplot(aes(statistikk_aar_mnd, wfh_share)) + 
+  geom_point() + 
+  geom_smooth() 
+
+```
+
+This increases the total instance count to `r sum(wfh_extended$wfh)` and lifts the trendline, but the trend itself remains the same. This suggests that the two words are indeed used as synonyms.
+
+The job ads have already been annotated with an ISCO-08 code, done by labor-market experts at NAV. Looking at mentions of remote work across 1st digit ISCO codes, we see that remote work is mentioned more in academic professions. This is not anything new or counterintuitive, media coverage have already of the COVID-19 pandemic has already given attention to how working from home is a priviledge enjoyed by people with higher education, while others are forced to go to work at grocery stores, delivery companies, or are simply laid off from restaurants, hairdressers and hotels that have had to close. This table is able to give som indication about the magnitudes of the phenomenon.
+
+```{r}
+wfh_extended %>% 
+  #filter(statistikk_aar_mnd>'2017') %>% 
+  mutate(ISCO1 = substr(yrkeskode,1 ,1)) %>% 
+  group_by(ISCO1) %>% 
+  summarize(wfh_prob = 100*mean(wfh), number_of_ads=n(), number_of_mentions=sum(wfh)) %>% 
+  ungroup() %>% 
+  mutate(relative_prob = 100*number_of_mentions/(sum(number_of_mentions)),
+         ISCO1 = ass_c[ISCO1])
+
+```
+
+The frequencies do indeed suggest that working from home is afforded occupations that typically require higher education, but it is not a clean cut. Jobs in occupational group 4 are typically office jobs that don't require higher education, and has the second highest share of remote-mentions. Nonetheless, the pattern is clear.
+
+Moving to relative probabilities, 40% of ads that mention remote are for academic occupations with another 25% in jobs that typically require some vocational higher education. But thanks to the high frequency of group 5, close to 15% of advertised positions are in this category.
+
+
+
+```{r}
+
+wfh_extended %>% 
+  #filter(statistikk_aar_mnd>'2017') %>% 
+  group_by(arbeidssted_fylke) %>% 
+  summarize(wfh_prob = 100*mean(wfh), number_of_ads=n(), number_of_mentions=sum(wfh)) %>% 
+  ungroup() %>% 
+  arrange(desc(number_of_ads)) %>% 
+  mutate(relative_prob = wfh_prob/(sum(wfh_prob))) -> fylke_prob
+
+fylke_prob
+
+```
+
+Using the number of ads on a municipality level as a proxy for denseness in the municipality, we only see a linear relationship between ads and mentions of remote work. This is somewhat surprising, as academic jobs are more prevalent in larger cities.
+
+```{r}
+
+wfh_extended %>% 
+  #filter(statistikk_aar_mnd>'2017') %>% 
+  group_by(arbeidssted_kommunenummer) %>% 
+  summarize(wfh_prob = 100*mean(wfh), number_of_ads=n(), number_of_mentions=sum(wfh)) %>% 
+  ungroup() %>% 
+  mutate(relative_prob = wfh_prob/(sum(wfh_prob))) %>% 
+  ggplot(aes(number_of_mentions, number_of_ads)) + 
+  geom_point() +
+  geom_smooth() +
+  scale_y_log10() +
+  scale_x_log10()
+
+```
+
+
+## Using ISCO annotations
+
+The annotated data, which was provided as JSON and structured to a parquet in Python, provides an ISCO-code, a categorization (remote-friendly or not) as both a dummy-variable and a categorical variable, and a confidence measure indicating how disparate the answers were (each ad was evaluated by 5 different annotators). We are combining this data with the latest register based employment data by ISCO-08.
+
+```{r}
+
+annotations <- read_parquet('data/mt_data.parquet') %>% 
+  mutate(wfh_dummy = as.numeric(wfh_dummy))
+syss <- read_parquet('data/syss.parquet')
+names(syss) <- c('ISCO', 'antall')
+
+syss %>% 
+  mutate(antall = as.numeric(antall)) -> syss
+
+
+syss %>%
+  mutate(ISCO = trimws(ISCO)) %>% 
+  left_join(annotations, on='ISCO') %>%
+  mutate(remote_count = ifelse(wfh_dummy==0, 0, antall)) -> syss_total
+
+```
+
+
+First and foremost, we are now able to estimate the total number of *employees* in norway who are likely able to work remotely: `r sum(syss_total$remote_count, na.rm=T)`. This represents `r 100*sum(syss_total$remote_count, na.rm=T)/sum(syss_total$antall, na.rm=T)`% of the workforce, which is fairly similar to the NBER paper.
+
+
+## Comparing approaches
+
+As a way of cross-checking the results, we compare the relative distributions of work-from-home eligibility at the 1-digit ISCOs level.
+
+```{r}
+
+
+wfh_extended %>% 
+  #filter(statistikk_aar_mnd>'2017') %>% 
+  mutate(ISCO1 = substr(yrkeskode,1 ,1)) %>% 
+  group_by(ISCO1) %>% 
+  summarize(wfh_prob = 100*mean(wfh), number_of_ads=n(), number_of_mentions=sum(wfh)) %>% 
+  ungroup() %>% 
+  mutate(relative_prob_ads = 100*number_of_mentions/(sum(number_of_mentions))) -> ads_st1_stats
+
+
+annotations %>% 
+  mutate(ISCO1 = substr(ISCO,1 ,1)) %>% 
+  group_by(ISCO1) %>% 
+  summarize(wfh_prob = 100*mean(wfh_dummy), number_of_ads=n(), number_of_mentions=sum(wfh_dummy)) %>% 
+  ungroup() %>% 
+  mutate(relative_prob_annotations = 100*number_of_mentions/(sum(number_of_mentions))) -> annotations_st1_stats
+
+
+ads_st1_stats %>% 
+  full_join(annotations_st1_stats, by='ISCO1') %>% 
+  select(ISCO1, relative_prob_annotations, relative_prob_ads) %>% 
+  mutate(pctpts_diff = round(relative_prob_annotations-relative_prob_ads, 1),
+         relative_prob_annotations = round(relative_prob_annotations, 1),
+         relative_prob_ads = round(relative_prob_ads, 1),
+         ISCO1=ass_c[ISCO1]) %>% datatable(rownames=F)
+
+
+```
+
+Given the spuriosity of the data, the two probabilities are broadly consistent. The author notes a strange symmetry in the difference for occupational group 4 and 5.
+
+
+
