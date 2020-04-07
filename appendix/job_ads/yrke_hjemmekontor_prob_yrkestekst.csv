@@ -1,0 +1,399 @@
+yrkeskode;yrke;hk_prob;hk_antall;antall;rel_prob
+0;Uoppgitt eller yrker som ikke kan identifiseres;0;0;941;0
+110;Offiserer fra fenrik og høyere grad;0;0;33;0
+1111;Politikere;0;0;106;0
+1112;Toppledere i offentlig administrasjon;0;0;268;0
+1114;Toppledere i interesseorganisasjoner;0.00954653937947494;8;838;0.006762468300929839
+1120;Administrerende direktører;0.002197802197802198;4;1820;0.0033812341504649195
+1211;Finans- og økonomisjefer;0;0;1271;0
+1212;Personalsjefer;0.001692047377326565;1;591;8.453085376162299e-4
+1213;Strategi- og planleggingssjefer;0;0;85;0
+1219;Andre administrative ledere;0.007809726659566915;22;2817;0.018596787827557058
+1221;Salgs- og markedssjefer;0.01403180542563143;45;3207;0.03803888419273035
+1222;PR- og informasjonssjefer;0.0046875;3;640;0.00253592561284869
+1223;Forsknings- og utviklingsledere;0;0;369;0
+1311;Ledere innen skogbruk, gartnerier mv.;0;0;83;0
+1312;Ledere innen akvakultur mv.;0;0;123;0
+1321;Ledere av industriproduksjon mv.;0.0026455026455026454;4;1512;0.0033812341504649195
+1322;Ledere av olje- og gassutvinning mv;0;0;229;0
+1323;Ledere av bygge- og anleggsvirksomhet;0.003110419906687403;4;1286;0.0033812341504649195
+1324;Ledere av logistikk og transport mv.;9.025270758122744e-4;1;1108;8.453085376162299e-4
+1330;Ledere av IKT-enheter;0.002205071664829107;2;907;0.0016906170752324597
+1341;Ledere av omsorgstjenester for barn;0;0;617;0
+1342;Ledere av helsetjenester;0.003873466752743706;12;3098;0.01014370245139476
+1343;Ledere av eldreomsorg;0;0;70;0
+1344;Ledere av sosialomsorg;0;0;71;0
+1345;Ledere av utdanning og undervisning;0;0;3116;0
+1346;Ledere av forsikring og finansvirksomhet;0;0;353;0
+1349;Andre ledere av produksjon og tjenesteyting;0.003367003367003367;24;7128;0.02028740490278952
+1411;Hotellsjefer;0;0;236;0
+1412;Restaurantsjefer;0;0;1032;0
+1420;Varehandelssjefer;0.002585983966899405;10;3867;0.0084530853761623
+1431;Sports-, rekreasjons- og kultursenterledere;0.014970059880239521;5;334;0.00422654268808115
+1439;Andre daglige ledere i tjenesteytende virksomheter;0;0;78;0
+210;Befal med sersjant grad;0;0;2;0
+2111;Fysikere og astronomer;0;0;298;0
+2112;Meteorologer;0;0;61;0
+2113;Kjemikere;0;0;278;0
+2114;Geologer og geofysikere;0;0;575;0
+2120;Matematikere, statistikere mv.;0.0028328611898017;1;353;8.453085376162299e-4
+2131;Biologer, botanikere, zoologer mv.;0.0035087719298245615;3;855;0.00253592561284869
+2132;Sivilagronomer mv.;0.009523809523809525;2;210;0.0016906170752324597
+2133;Miljøvernrådgivere;0;0;202;0
+2141;Sivilingeniører (industri og produksjon);0.008695652173913044;1;115;8.453085376162299e-4
+2142;Sivilingeniører (bygg og anlegg);0.0026462805057336078;9;3401;0.0076077768385460695
+2143;Sivilingeniører (miljøteknikk);0;0;27;0
+2144;Sivilingeniører (maskin- og marinteknikk);0.0020429009193054137;2;979;0.0016906170752324597
+2145;Sivilingeniører (kjemi);0;0;58;0
+2146;Sivilingeniører (geofag, petroleums-teknologi, metallurgi mv.);0.004574565416285453;5;1093;0.00422654268808115
+2149;Andre sivilingeniører( unntatt elektroteknologi);0.004640371229698376;4;862;0.0033812341504649195
+2151;Sivilingeniører (elkraftteknikk);0;0;622;0
+2152;Sivilingeniører (elektronikk);0.004540295119182747;4;881;0.0033812341504649195
+2153;Sivilingeniører (telekommunikasjon);0;0;77;0
+2161;Sivilarkitekter;0.0015313935681470138;1;653;8.453085376162299e-4
+2162;Landskapsarkitekter;0.01858736059479554;5;269;0.00422654268808115
+2163;Produkt- og klesdesignere;0;0;71;0
+2164;Arealplanleggere;9.532888465204957e-4;1;1049;8.453085376162299e-4
+2165;Landmålere, kartografer mv.;0.005208333333333333;1;192;8.453085376162299e-4
+2166;Grafiske og multimediadesignere;0.00875;7;800;0.005917159763313609
+2211;Allmennpraktiserende leger;0.011920980926430519;35;2936;0.029585798816568046
+2212;Legespesialister;8.226390259953932e-4;5;6078;0.00422654268808115
+2221;Spesialsykepleiere;0;0;5465;0
+2222;Jordmødre;0.001443001443001443;1;693;8.453085376162299e-4
+2223;Sykepleiere;1.838167714422264e-4;5;27201;0.00422654268808115
+2224;Vernepleiere;3.6332808526099065e-4;3;8257;0.00253592561284869
+2250;Veterinærer;0;0;182;0
+2261;Tannleger;0;0;939;0
+2262;Farmasøyter;0.0030303030303030303;2;660;0.0016906170752324597
+2263;Helse- og miljørådgivere;0;0;37;0
+2264;Fysioterapeuter;0.0014464802314368371;3;2074;0.00253592561284869
+2265;Ernæringsfysiologer;0.004405286343612335;1;227;8.453085376162299e-4
+2266;Audiografer og logopeder;0;0;332;0
+2267;Ergoterapeuter;0;0;1058;0
+2269;Kiropraktorer mv.;0;0;24;0
+2310;Universitets- og høyskolelektorer/-lærere;0;0;6984;0
+2320;Yrkesfaglærere;5.370569280343716e-4;1;1862;8.453085376162299e-4
+2330;Lektorer mv. i videregående skole;0;0;4077;0
+2341;Grunnskolelærere;0;0;10918;0
+2342;Førskolelærere;4.051863857374392e-4;6;14808;0.00507185122569738
+2351;Spesialister i pedagogikk;0.001671309192200557;3;1795;0.00253592561284869
+2352;Spesiallærere/spesialpedagoger;0;0;1565;0
+2353;Andre språklærere;0;0;94;0
+2354;Andre musikklærere;0.0023148148148148147;1;432;8.453085376162299e-4
+2355;Andre lærere i estetiske fag;0;0;100;0
+2356;Andre IKT-lærere;0;0;48;0
+2359;Andre lærere;9.074410163339383e-4;1;1102;8.453085376162299e-4
+2411;Revisorer og regnskapsrådgivere;0.003616636528028933;12;3318;0.01014370245139476
+2412;Finans- og investeringsrådgivere;0.003244646333549643;5;1541;0.00422654268808115
+2413;Finansanalytikere;0.002857142857142857;4;1400;0.0033812341504649195
+2421;Organisasjonsrådgivere;0.008264462809917356;5;605;0.00422654268808115
+2422;Høyere saksbehandlere i offentlig og privat virksomhet;0.004007170726563324;38;9483;0.032121724429416736
+2423;Personal- og karriererådgivere;0.0023619722468261;8;3387;0.006762468300929839
+2424;Rådgivere innen kompetanseutvikling;0;0;103;0
+2431;Reklame- og markedsføringsrådgivere;0.028143163046803303;92;3269;0.07776838546069316
+2432;Informasjonsrådgivere;0.0014892032762472078;2;1343;0.0016906170752324597
+2433;Salgskonsulenter innen tekniske og medisinske produkter;0.03314285714285714;58;1750;0.04902789518174133
+2434;Salgskonsulenter innen IKT-produkter;0.07211538461538461;15;208;0.01267962806424345
+2511;Systemanalytikere/-arkitekter;0.007248791868021996;87;12002;0.073541842772612
+2512;Programvareutviklere;0.008658008658008658;6;693;0.00507185122569738
+2513;Nett- og multimediautviklere;0.006756756756756757;1;148;8.453085376162299e-4
+2514;Applikasjonsprogrammerere;0;0;75;0
+2519;Andre programvare- og applikasjonsutviklere;0.002258610954263128;4;1771;0.0033812341504649195
+2521;Databasedesignere og -administratorer;0;0;79;0
+2522;Systemadministratorer;0.010238907849829351;3;293;0.00253592561284869
+2523;Nettverksansvarlige;0;0;31;0
+2529;Sikkerhetsanalytikere mv.;0.005376344086021506;2;372;0.0016906170752324597
+2611;Jurister og advokater;0.007352941176470588;20;2720;0.0169061707523246
+2612;Dommere;0;0;245;0
+2619;Andre juridiske yrker;0;0;42;0
+2621;Arkivarer og kuratorer;0.0014064697609001407;1;711;8.453085376162299e-4
+2622;Bibliotekarer og andre informasjonsarbeidere;0;0;577;0
+2631;Rådgivere/forskere, samfunnsøkonomi;0.0021482277121374865;2;931;0.0016906170752324597
+2632;Rådgivere/forskere, samfunnsvitenskap;0;0;342;0
+2633;Rådgivere/forskere, humanistiske fag;0;0;173;0
+2634;Psykologer;9.214466712739e-4;4;4341;0.0033812341504649195
+2635;Rådgivere innen sosiale fagfelt;0.0029850746268656717;9;3015;0.0076077768385460695
+2636;Geistlige yrker;0.001336898395721925;1;748;8.453085376162299e-4
+2641;Forfattere mv.;0.013986013986013986;2;143;0.0016906170752324597
+2642;Journalister;0.0019646365422396855;2;1018;0.0016906170752324597
+2643;Oversettere, tolker mv;0.009375;3;320;0.00253592561284869
+2651;Skulptører, kunstmalere og andre billedkunstnere;0;0;5;0
+2652;Dirigenter, komponister, musikere og sangere;0;0;407;0
+2653;Koreografer og dansere;0.0136986301369863;1;73;8.453085376162299e-4
+2654;Regissører;0.021505376344086023;2;93;0.0016906170752324597
+2655;Skuespillere;0;0;8;0
+2656;Programledere i TV og radio;0;0;30;0
+2659;Andre utøvende kunstneriske yrker;0;0;26;0
+310;Menige;0;0;4;0
+3112;Bygningsingeniører;0.0044751072161103855;24;5363;0.02028740490278952
+3113;Elkraftingeniører;0.003987240829346092;5;1254;0.00422654268808115
+3114;Elektronikkingeniører;0.002500893176134334;7;2799;0.005917159763313609
+3115;Maskiningeniører;0.0014423076923076924;3;2080;0.00253592561284869
+3116;Kjemiingeniører;0;0;439;0
+3117;Ingeniører innen petroleum, bergverk og metallurgi;8.849557522123894e-4;2;2260;0.0016906170752324597
+3118;Tekniske tegnere;0.005319148936170213;2;376;0.0016906170752324597
+3119;Andre ingeniører;0.0031918289179699967;10;3133;0.0084530853761623
+3121;Arbeidsleder, bergfag, oljevirksomhet;0;0;3;0
+3122;Arbeidsleder, industri;0;0;275;0
+3123;Arbeidsleder, bygg og anlegg;0.0010548523206751054;1;948;8.453085376162299e-4
+3131;Energikontrolloperatører;0;0;86;0
+3132;Kontrolloperatører ved forbrennings-, kjøle- og vannrenseanlegg mv.;0;0;197;0
+3133;Kontrolloperatører innen kjemisk prosessindustri;0;0;2;0
+3134;Kontrolloperatører ved olje- og naturgassraffineringsanlegg;0;0;99;0
+3135;Kontrolloperatører innen metallproduksjon;0;0;4;0
+3139;Andre prosesskontrolloperatører;0;0;9;0
+3141;Bioteknikere (ikke-medisinske laboratorier);0;0;68;0
+3142;Agroteknikere;0;0;111;0
+3143;Skogteknikere;0;0;93;0
+3151;Skipsmaskinister;0;0;382;0
+3152;Dekksoffiserer og loser;0;0;485;0
+3153;Flygere mv.;0;0;41;0
+3154;Flygeledere;0;0;6;0
+3155;Teknikere innen luftfartssikkerhet;0;0;35;0
+3211;Radiografer mv.;0;0;423;0
+3212;Bioingeniører;7.31528895391368e-4;1;1367;8.453085376162299e-4
+3213;Reseptarer;0;0;136;0
+3214;Protese- og tannteknikere;0;0;62;0
+3230;Yrker innen alternativ medisin;0;0;5;0
+3240;Dyrepleier;0;0;66;0
+3251;Tannpleier;0;0;304;0
+3254;Optikere;0;0;232;0
+3256;Helsesekretærer;0;0;2542;0
+3257;Helse og miljøkontrollører;0.004524886877828055;3;663;0.00253592561284869
+3258;Ambulansepersonell;0;0;492;0
+3259;Andre helseyrker;0;0;57;0
+3311;Finansmeglere;0;0;394;0
+3312;Kundebehandlere lån og kreditt;6.844626967830253e-4;1;1461;8.453085376162299e-4
+3313;Regnskapsførere;0.009887005649717515;42;4248;0.03550295857988166
+3315;Takstmenn;0.007142857142857143;1;140;8.453085376162299e-4
+3321;Forsikringsagenter;0.004542013626040878;6;1321;0.00507185122569738
+3322;Selgere (engros);0.025769506084466716;180;6985;0.1521555367709214
+3323;Innkjøpere;6.485084306095979e-4;1;1542;8.453085376162299e-4
+3324;Handels- og skipsmeglere;0;0;53;0
+3331;Speditører og befraktere;0;0;456;0
+3332;Konferanse- og arrangementsplanleggere;0.018518518518518517;2;108;0.0016906170752324597
+3333;Arbeidsformidlere;0.009302325581395349;4;430;0.0033812341504649195
+3334;Eiendomsmeglere- og forvaltere;0;0;1049;0
+3339;Andre yrker innen forretningstjenester;0.01694915254237288;1;59;8.453085376162299e-4
+3341;Arbeidsledere for kontorpersonell;0.007594936708860759;3;395;0.00253592561284869
+3342;Advokatsekretærer;0;0;98;0
+3343;Sjefssekretærer;0.007561436672967864;4;529;0.0033812341504649195
+3351;Tollere;0;0;43;0
+3352;Skattefunksjonærer;0;0;29;0
+3353;Saksbehandlere innen sosiale ytelser;0;0;624;0
+3354;Saksbehandlere for førerkort, importlisenser mv.;0;0;4;0
+3355;Politibetjenter mv.;0;0;1990;0
+3359;Andre yrker innen offentlig forvaltning;0.00516795865633075;2;387;0.0016906170752324597
+3411;Privatetterforskere;0;0;1;0
+3412;Miljøarbeidere innen sosiale fagfelt;5.023863350916855e-4;2;3981;0.0016906170752324597
+3413;Religiøse yrker;0;0;653;0
+3421;Idrettsutøvere;0;0;1;0
+3422;Trenere og idrettsdommere;0;0;374;0
+3423;Sports- og aktivitetsinstruktører;0;0;237;0
+3431;Fotografer og filmfotografer;0;0;96;0
+3432;Interiørdesignere og dekoratører;0;0;182;0
+3433;Tekniske konservatorer;0;0;37;0
+3434;Sjefskokker;0;0;778;0
+3439;Andre yrker innen estetiske fag;0;0;148;0
+3511;Driftsteknikere, IKT;0.002128414331323164;6;2819;0.00507185122569738
+3512;Brukerstøttere, IKT;0.005115089514066497;2;391;0.0016906170752324597
+3513;Nettverks- og systemteknikere, IKT;0.05392156862745098;11;204;0.009298393913778529
+3514;Internett-teknikere;0.02349869451697128;9;383;0.0076077768385460695
+3521;Teknikere innen radio og tv;0;0;77;0
+3522;Teknikere innen telekommunikasjon;0;0;107;0
+4110;Kontormedarbeidere;0.002786485545106235;16;5742;0.013524936601859678
+4131;Stenografer;0;0;1;0
+4132;Dataregistrerere;0.01639344262295082;2;122;0.0016906170752324597
+4211;Kundebehandlere, bank og postkontor;0;0;129;0
+4212;Bingoverter, bookmakere mv.;0;0;99;0
+4214;Inkassomedarbeidere mv.;0;0;177;0
+4221;Reisebyråmedarbeidere mv.;0.007575757575757576;5;660;0.00422654268808115
+4222;Kundesentermedarbeidere;0.0016611295681063123;2;1204;0.0016906170752324597
+4223;Sentralbordoperatører;0;0;144;0
+4224;Hotellresepsjonister;0;0;1993;0
+4225;Informasjonsskrankemedarbeidere;0;0;41;0
+4226;Resepsjonister (ekskl. hotell);0;0;886;0
+4227;Intervjuere;0.031746031746031744;6;189;0.00507185122569738
+4229;Andre opplysningsmedarbeidere;0;0;11;0
+4311;Regnskapsmedarbeidere;0.007516228220020499;22;2927;0.018596787827557058
+4312;Forsikrings- og finansmedarbeidere;0;0;13;0
+4313;Lønningsmedarbeidere;9.861932938856016e-4;1;1014;8.453085376162299e-4
+4321;Lagermedarbeidere og materialforvaltere;0;0;3228;0
+4322;Logistikkmedarbeidere;0;0;1420;0
+4323;Transportfunksjonærer;0;0;378;0
+4411;Bibliotekassistenter;0;0;83;0
+4412;Postbud og postsorterere;0;0;65;0
+4413;Kodere mv;0;0;2;0
+4415;Arkivassistenter;0;0;191;0
+4416;Personalkontormedarbeidere;0;0;76;0
+5111;Flyverter, båtverter mv.;0;0;39;0
+5112;Konduktører;0;0;32;0
+5113;Reiseledere og guider;0;0;443;0
+5120;Kokker;1.840942562592047e-4;1;5432;8.453085376162299e-4
+5131;Servitører;0;0;3680;0
+5132;Bartendere;0;0;1033;0
+5141;Frisører;0;0;1325;0
+5142;Kosmetologer mv.;0.0019157088122605363;1;522;8.453085376162299e-4
+5151;Renholdsledere i bedrifter;0;0;567;0
+5152;Husholdere;0;0;38;0
+5153;Vaktmestere;9.328358208955224e-4;2;2144;0.0016906170752324597
+5163;Begravelsesbyrå- og krematoriemedarbeidere;0;0;49;0
+5164;Dyrepassere og -trenere mv.;0;0;36;0
+5165;Kjøreskolelærere;0;0;133;0
+5169;Andre personlige tjenesteytere;0;0;284;0
+5211;Torghandlere mv.;0.02;1;50;8.453085376162299e-4
+5212;Gateselger av mat;0;0;1;0
+5221;Innehavere av kiosk/liten butikk;0;0;12;0
+5222;Butikkavdelingssjefer;0;0;316;0
+5223;Butikkmedarbeidere;0.0034311119702314795;71;20693;0.060016906170752324
+5230;Billettselgere;0;0;83;0
+5241;Mannekenger og modeller;0;0;7;0
+5242;Demonstrasjonsselgere;0;0;126;0
+5243;Dørselgere;0.07763975155279502;25;322;0.021132713440405747
+5244;Telefon- og nettselgere;0.01738334858188472;19;1093;0.016060862214708368
+5245;Servicemedarbeidere (bensinstasjon);0;0;184;0
+5246;Gatekjøkken- og kafémedarbeidere mv.;0;0;1382;0
+5249;Andre salgsmedarbeidere;0;0;297;0
+5311;Barnehage- og skolefritidsassistenter mv.;9.602458229306702e-5;1;10414;8.453085376162299e-4
+5312;Skoleassistenter;0;0;1670;0
+5321;Helsefagarbeidere;2.179598953792502e-4;3;13764;0.00253592561284869
+5322;Hjemmehjelper;0.002055076037813399;5;2433;0.00422654268808115
+5329;Andre pleiemedarbeidere;0;0;5498;0
+5411;Brannkonstabler;0;0;580;0
+5413;Fengselsbetjenter;0;0;235;0
+5414;Vektere;0;0;1195;0
+5419;Andre sikkerhetsarbeidere;0;0;413;0
+6111;Korn- og grønnsaksprodusenter;0;0;27;0
+6113;Gartnere;0;0;1119;0
+6121;Melke- og husdyrprodusenter;0;0;382;0
+6122;Egg- og fjærfeprodusenter;0;0;2;0
+6123;Birøktere;0;0;1;0
+6129;Andre dyreoppdrettere og -røktere;0;0;1;0
+6130;Plante- og husdyrprodusenter (kombinasjonsbruk;0;0;36;0
+6210;Skogbrukere;0;0;55;0
+6221;Havbruksarbeidere;0;0;341;0
+6222;Fiskere;0;0;25;0
+6224;Fangstfolk;0;0;9;0
+7112;Murere;0;0;470;0
+7113;Steinhoggere;0;0;40;0
+7114;Betongarbeidere;9.153318077803204e-4;2;2185;0.0016906170752324597
+7115;Tømrere og snekkere;0.0010808863267879661;6;5551;0.00507185122569738
+7119;Andre bygningsarbeidere;0;0;633;0
+7121;Taktekkere;0;0;513;0
+7122;Gulv- og flisleggere;0;0;639;0
+7123;Gips- og sparklingsarbeidere;0;0;10;0
+7124;Isolatører mv.;0;0;153;0
+7125;Glassarbeidere;0;0;284;0
+7126;Rørleggere og VVS-montører;0;0;2791;0
+7127;Kuldemontører mv.;0;0;760;0
+7131;Malere og byggtapetserere;0;0;959;0
+7132;Overflatebehandlere og lakkerere;0;0;669;0
+7133;Feiere, fasaderenholdere mv.;0;0;183;0
+7211;Støpere;0;0;28;0
+7212;Sveisere;0;0;1019;0
+7213;Kopper- og blikkenslagere;0;0;1257;0
+7214;Platearbeidere;0;0;539;0
+7215;Riggere og spleisere;0;0;116;0
+7221;Smeder;0;0;47;0
+7222;Verktøymakere, låsesmeder mv.;0;0;769;0
+7223;Metalldreiere mv.;0;0;200;0
+7224;Metallslipere;0;0;3;0
+7231;Bilmekanikere;1.9316206297083255e-4;1;5177;8.453085376162299e-4
+7232;Mekanikere innen flytekniske fag;0;0;44;0
+7233;Anleggsmaskin- og industrimekanikere;3.4916201117318437e-4;1;2864;8.453085376162299e-4
+7234;Sykkelreparatører mv.;0;0;49;0
+7311;Presisjonsinstrumentmakere og -reparatører;0;0;36;0
+7312;Musikkinstrumentmakere og -stemmere;0;0;5;0
+7313;Gull- og sølvsmeder, gravører mv.;0;0;17;0
+7314;Keramikere mv.;0;0;2;0
+7315;Glasshåndverkere;0;0;7;0
+7316;Dekormalere mv;0;0;1;0
+7317;Kunsthåndverkere i tre mv.;0;0;1;0
+7318;Vevere, strikkere mv. (innen husflidsproduksjon);0.05263157894736842;1;19;8.453085376162299e-4
+7321;Førtrykkere;0;0;65;0
+7322;Trykkere;0;0;41;0
+7411;Elektrikere;8.257638315441783e-4;4;4844;0.0033812341504649195
+7412;Automatikere;9.165902841429881e-4;1;1091;8.453085376162299e-4
+7413;Energimontører;0;0;657;0
+7421;Serviceelektronikere;0;0;85;0
+7422;Tele- og IKT-installatører;0;0;448;0
+7511;Slaktere, fiskehandlere mv;0;0;164;0
+7512;Bakere, konditorer mv.;0;0;340;0
+7513;Ystere mv. (gårdsproduksjon);0;0;1;0
+7514;Syltere, saftere mv. (gårdsproduksjon);0;0;2;0
+7515;Prøvesmakere og kvalitetsbedømmere av mat og drikke;0;0;5;0
+7522;Møbelsnekkere;0;0;181;0
+7531;Skreddere, buntmakere mv.;0;0;41;0
+7532;Gradører;0;0;3;0
+7534;Møbeltapetserere mv.;0;0;7;0
+7535;Skinnberedere og garvere;0;0;6;0
+7536;Skomakere;0;0;6;0
+7541;Yrkesdykkere;0;0;34;0
+7542;Skytebaser og sprengningsarbeidere;0;0;152;0
+7543;Produkttestere (ikke matprodukter);0;0;5;0
+7544;Desinfeksjonsarbeidere og skadedyrbekjempere;0;0;67;0
+7549;Andre håndverkere;0;0;92;0
+8111;Bergfagarbeidere;0;0;37;0
+8112;Prosessoperatører (oppredning);0;0;16;0
+8113;Operatører innen boring mv.;0;0;187;0
+8114;Operatører innen produksjon av betong mv;0;0;186;0
+8121;Operatører innen metallurgiske prosessfag;0;0;204;0
+8122;Operatører innen metalloverflatebehandling;0;0;3;0
+8131;Operatører innen kjemisk industri;0;0;296;0
+8132;Operatører innen produksjon av fotofilm og -papir mv.;0;0;9;0
+8141;Operatører innen produksjon av gummiprodukter;0;0;30;0
+8142;Operatører innen produksjon av plastprodukter;0;0;85;0
+8143;Operatører innen produksjon av papirprodukter;0;0;1;0
+8151;Spinne- og nøstemaskinoperatører;0;0;2;0
+8152;Operatører innen tekstilproduksjon mv.;0;0;17;0
+8153;Industrisyere;0;0;29;0
+8154;Operatører innen tekstilbearbeiding;0;0;6;0
+8157;Renseri- og vaskerimaskinoperatører;0;0;223;0
+8160;Operatører innen næringsmiddelproduksjon;0;0;629;0
+8171;Operatører innen treforedling;0;0;70;0
+8172;Operatører innen trelastproduksjon;0;0;117;0
+8181;Operatører innen glass- og keramisk produksjon;0;0;42;0
+8182;Fyrkjele- og turbinoperatør;0;0;108;0
+8183;Pakke-, tappe- og etikettmaskinoperatør;0;0;46;0
+8189;Operatører av andre stasjonære maskiner;0;0;5;0
+8211;Montører av mekaniske produkter;0;0;113;0
+8212;Montører av elektriske og elektroniske produkter;0;0;181;0
+8219;Andre montører;0;0;44;0
+8311;Lokomotiv- og T-baneførere;0;0;79;0
+8312;Skiftekonduktører mv.;0;0;3;0
+8322;Bil-, drosje- og varebilførere;0;0;1371;0
+8331;Bussjåfører og trikkeførere;0;0;512;0
+8332;Lastebil- og trailersjåfører;0;0;3194;0
+8341;Jordbruks- og skogbruksmaskinførere;0;0;25;0
+8341;Jordbruks- skogbruksmaskinførere;0;0;13;0
+8342;Anleggsmaskinførere;4.1288191577208916e-4;1;2422;8.453085376162299e-4
+8343;Kran- og heisførere;0.002777777777777778;1;360;8.453085376162299e-4
+8344;Truckførere;0;0;620;0
+8350;Dekks- og maskinmannskap (skip);0;0;351;0
+9111;Renholdere i private hjem;0;0;175;0
+9112;Renholdere i bedrifter;0;0;3880;0
+9122;Bilvaskere;0;0;385;0
+9123;Vinduspussere;0;0;17;0
+9129;Andre rengjørere;0;0;14;0
+9211;Hjelpearbeidere i nyttevekstproduksjon;0;0;3;0
+9212;Hjelpearbeidere i husdyrproduksjon;0;0;36;0
+9213;Hjelpearbeidere (gårdsbruk/landbruk);0;0;6;0
+9214;Hjelpearbeidere i gartneri mv.;0;0;117;0
+9215;Hjelpearbeidere i skogbruk;0;0;1;0
+9216;Hjelpearbeidere innen havbruk;0;0;12;0
+9311;Hjelpearbeidere i bergverk;0;0;6;0
+9312;Hjelpearbeidere i anlegg;0;0;1033;0
+9313;Hjelpearbeidere i bygg;0;0;508;0
+9321;Håndpakkere mv.;0;0;51;0
+9329;Andre hjelpearbeidere i industri;0;0;130;0
+9333;Laste- og lossearbeidere;0;0;252;0
+9334;Varepåfyllere;0;0;44;0
+9412;Kjøkkenassistenter;0;0;1940;0
+9510;Reklamedistributører mv.;0;0;36;0
+9611;Renovasjonsarbeidere;0;0;471;0
+9612;Gjenvinningsarbeidere;0;0;67;0
+9613;Gatefeiere mv.;0;0;5;0
+9621;Bud mv.;0;0;183;0
+9622;Altmuligmann;0;0;60;0
+9623;Måleravlesere mv.;0;0;7;0
+9629;Andre hjelpearbeidere;0;0;121;0
