@@ -2,16 +2,33 @@
 title: "Exploring remote work from job ads"
 author: "Henning Holgersen"
 date: "2020-04-07"
-output: html_document
+output:
+#  pdf_document: default
+  html_document: default
+  
+bibliography: refs.bib
 ---
 
 ```{r setup, include=FALSE}
+
+# install.packages(c("gt", "arrow"))
+
 knitr::opts_chunk$set(echo = TRUE)
-options(digits=2)
-options(scipen=999)
+options(scipen=999, big.mark=" ", digits=1)
+
+
+knitr::knit_hooks$set(inline = function(x) {
+prettyNum(x, big.mark=" ", decimal.mark=",", digits=1)
+})
+
+
+library(tidyverse)
+library(arrow)
+library(gt)
+library(sf)
 
 # Labels for 1-digit ISCO
-ass_c <- c('0'='Armed forces and unspecified', 
+isco_labels <- c('0'='Armed forces and unspecified', 
            '1'='Managers', 
            '2'='Academics', 
            '3'='Technicians and associate professionals', 
@@ -23,27 +40,234 @@ ass_c <- c('0'='Armed forces and unspecified',
            '9'='Elementary Occupations')
 
 
+# ads <- read_parquet('data/stillinger_all_merged_isco08.parquet')
+# 
+# 
+# ads %>% 
+#   mutate(wfh = grepl("hjemmekontor|heimekontor", stillingsbeskrivelse_vasket, ignore.case=T )) %>% 
+#   select(isco_versjon, yrkeskode, yrke, wfh, arbeidssted_kommunenummer, statistikk_aar_mnd, bedrift_naring_primar_kode) -> wfh
+# 
+# save(wfh, file='wfh.RData')
+# save(ads, file='ads.RData')
+
+load('ads.RData')
+load('wfh.RData')
 
 ```
 
-Based on the norwegian welfare administration (NAV) data from 2012 to march 2019, we explore how remote work is featured in job ads. Note that the welfare administration only has an approximately complete picture of announced vacancies starting in 2017.
 
-## Loading data
+## Abstract
+The COVI-19 crisis has forced great societal changes, including forcing many to work remotely (work from home) in an effort to increase social distancing. The ability to work from home has long been considered a perk, but we have few estimates of how many are actually able to work from home.
 
-The data we are working with are too large to be included in a git repo, but as it is open data, it will be made available online.
+Social media has been quick to argue that the people who are able to work at home are already privilidged, highly educated and highly paid, while those who still have to go to work are more often in low-paid but critical roles such as drivers and grocers. This paper attempts to estimate the share of the norwegian workforce able to work remotely by combining register-based labor statistics, annotated job ads and the official documentation of the ISCO-08 standard which is used both in labor statistics and in the job ads.
 
-```{r prepare_data}
-library(tidyverse)
-library(arrow)
-library(DT)
-ads <- read_parquet('data/stillinger_all_merged_isco08.parquet')
+We find that approximately 34% of norwegian jobs can be performed at home.
+
+## Introduction
+
+Most data about the norwegian workforce is based on register data, and the information we have about what people do at work are based on occupational codes following the ISCO standard. Labor statistics are currently published following the ISCO-08 standard[@ISCO:08].
+
+ISCO-08 is a taxonomy aimed at classifying jobs into "occupations", which are relatable to the reader. These occupations do not say directly wether the job can be performed from home. By evaluating the ISCO-08 documentation, we are able to categorize each occupation as likely or unlikely to be remote-friendly. This classification is evaluated against job ads published by the norwegian welfare administration (NAV) between january 2012 and march 2019, in which there are mentions of remote possibilities.
+
+## Methodology
+
+In order annotate the ISCO-08 documentation and provide a assertion of wether each occupation is likely able to be performed from home, we created a public labeling job through Amazon Mechanical Turk[@MT]. Each occupation was presented together with a brief description, and the respondent was asked to evaluate wether it was likely that the job could be performed from a private home for a period of up to two weeks. We consider that two weeks is enough to argue that the job can *mainly* be performed from home. Two weeks is an arbitrary line to draw, but the neuances of this timeframe is unlikely to have any significant effect on the result.
+
+In order to reduce the serendipity in the labels, we aquired five labels from different respondents for each occupation, and we provided an "uncertain" option in addition to the "yes/no" options in order to reduce arbitrary responses to uninformative occupation descriptions.
+
+Since the job was on Mechanical Turk, there respondents are not subject matter experts, and likely reside in different countries. This adds to the importance of obtaining more than one label per occupation, but the number of labels does not correct for possible cultural differences - it is possible that some jobs that cannot be performed remotely in other countries can be performed remotely in Norway. We should consider the annotations as "international", which is also true for the ISCO-08 standard itself.
+
+In order to evaluate the annotations from Mechanical Turk, we use job ads from the norwegian welfare administration. Since the possibility to work from home is a perk for many, some employers mention it in their job ads in order to attract candidates. We search the texts for mentions of "hjemmekontor" and "heimekontor", two distinctive words unlikely to mean anything other than the possibility of working from home. Since far from every employer advertise this possibility, it is difficult to say anything about the total number of remote-friendly jobs from these ads. It does however say something important about the relative frequency of remote-friendly jobs across broader occupational groups, which we can use to validate the results from Mechanical Turk.
 
 
-ads %>% 
-  mutate(wfh = grepl("hjemmekontor", stillingsbeskrivelse_vasket, ignore.case=T )) %>% 
-  select(isco_versjon, yrkeskode, yrke, wfh, arbeidssted_kommunenummer, statistikk_aar_mnd, bedrift_naring_primar_kode) -> wfh
+## Results
+
+### Total remote-percentage
+
+```{r, echo=FALSE, include=FALSE}
+
+annotations <- read_parquet('data/mt_data.parquet') %>% 
+  mutate(wfh_dummy = as.numeric(wfh_dummy))
+syss <- read_parquet('data/syss.parquet')
+names(syss) <- c('ISCO', 'antall')
+
+syss %>% 
+  mutate(antall = as.numeric(antall)) -> syss
+
+# Manual check of non-matches reveal similar distribution, impute mean (=inner_join) works OK.
+syss %>%
+  mutate(ISCO = trimws(ISCO)) %>% 
+  inner_join(annotations, on='ISCO') %>%
+  mutate(remote_count = wfh_dummy*antall) -> syss_total
+
 
 ```
+
+
+From the Mechanical Turk annotations we see that `r prettyNum(100*mean(annotations$wfh_dummy))` per cent of the occupations can likely be performed from home. Taken together with the labor statistics per occupation, we find that `r prettyNum(sum(syss_total$remote_count))` occupations, `r prettyNum(100*sum(syss_total$remote_count)/sum(syss_total$antall) )` per cent of the workforce, are likely able to work from home.
+
+### Validating results against job-ads
+
+The job ads can not be compared directly to the annotated ISCO-08 data, but one of the comparisons we are able to do is the relative frequency of remote possibilities across broader occupational groups. Some job ads mention remote work, and we can expect that remote possibilities are mentioned more often within groups where remote possibilities are an option. We can compare this frequency with the number of remote-friendly occupations within each broader group. We also compute the composition of remote-friendly jobs across the occupational groups, giving us a measure that is directly comparable.
+
+
+```{r, echo=FALSE}
+
+
+wfh %>% 
+  #filter(statistikk_aar_mnd>'2017') %>% 
+  mutate(ISCO1 = substr(yrkeskode,1 ,1)) %>% 
+  group_by(ISCO1) %>% 
+  summarize(wfh_prob = mean(wfh), number_of_ads=n(), number_of_mentions=sum(wfh)) %>% 
+  ungroup() %>% 
+  mutate(relative_prob_ads = number_of_mentions/(sum(number_of_mentions))) -> ads_st1_stats
+
+
+annotations %>% 
+  mutate(ISCO1 = substr(ISCO,1 ,1)) %>% 
+  group_by(ISCO1) %>% 
+  summarize(wfh_prob = mean(wfh_dummy), number_of_ads=n(), number_of_mentions=sum(wfh_dummy)) %>% 
+  ungroup() %>% 
+  mutate(relative_prob_annotations = number_of_mentions/(sum(number_of_mentions))) -> annotations_st1_stats
+
+
+ads_st1_stats %>% 
+  inner_join(annotations_st1_stats, by='ISCO1') %>% 
+  select(ISCO1, relative_prob_annotations, relative_prob_ads) %>% 
+  mutate(pctpts_diff = relative_prob_annotations-relative_prob_ads,
+         ISCO1=isco_labels[ISCO1]) %>% 
+  gt() %>% 
+  tab_header("Relative frequency of remote-possibilities across ISCO groups") %>% 
+  fmt_percent(columns = vars(relative_prob_annotations, relative_prob_ads, pctpts_diff), decimals = 1, dec_mark = ",") %>% 
+  cols_label(ISCO1 = 'Occupational group',
+             relative_prob_annotations = "Annotations",
+             relative_prob_ads = "Job ads",
+             pctpts_diff = "Difference") %>% 
+  tab_spanner(
+    columns = vars(relative_prob_annotations, relative_prob_ads),
+    label="Relative remote frequency"
+  ) %>% 
+  summary_rows(
+    columns = vars(relative_prob_annotations, relative_prob_ads),
+    fns = list(Sum = ~ sum(.)),
+    formatter = fmt_percent
+  )
+
+
+```
+
+The noteable discrepancies for the groups "Service and sales workers" and "Clearical support workers" have a strange symmetry. These two groups share a lot of similarities, but one of the differentiators are that sales jobs are explicitly customer facing, while clerical support workers typically work in a backoffice position. Intuitively this would suggest that somehow the annotations are correct while the job ads are incorrect, but many explanations exist.
+
+Given the spuriousness of the data sources, the results seem fairly well aligned and we can continue the analysis with a .
+
+
+
+### Analyzing the remote occupations
+
+Splitting the annotated data into occupational groups, we can see what percentage of occupations are remote-friendly across occupational groups:
+
+```{r}
+
+custfmt <- function(...) {
+  "Hello"
+}
+
+syss_total %>% 
+  group_by(ISCO1) %>% 
+  summarize(antall = sum(antall),
+            remote_antall = sum(remote_count),
+    remote_pct = sum(remote_count)/sum(antall)) %>% 
+  ungroup() %>% 
+  mutate(ISCO1=isco_labels[ISCO1]) %>% 
+  gt() %>% 
+  tab_spanner(
+    columns = vars(antall, remote_antall),
+    label="Number of jobs"
+  ) %>% 
+  cols_label(ISCO1 = "Occupational Group",
+             antall = "Total",
+             remote_antall = "Remote-friendly",
+             remote_pct = "Percent remote friendly"
+             ) %>% 
+  summary_rows(
+    columns = vars(antall, remote_antall),
+    fns = list(Sum = ~ sum(.))
+  ) %>% 
+  fmt_percent(columns=vars(remote_pct), decimals = 1, dec_mark = ",") #%>% 
+  #fmt(columns=vars(remote_antall, antall), fns=custfmt)
+  
+
+```
+
+
+Geographic distribution:
+
+```{r}
+
+nor = read_rds('data/gadm36_NOR_2_sf.rds')
+
+yrke_kommune <- read_csv('data/yrke_kommuner.csv')
+names(yrke_kommune) <- c('region', 'kjonn', 'alder', 'yrke', 'antall')
+
+yrke_kommune %>% 
+  mutate(kommnavn = str_extract(region, '[A-zøæåØÆÅ-]+'),
+         kommnr = substr(region, 1, 4),
+         ISCO1 = substr(yrke, 1, 1)) %>% 
+  mutate(kommnavn = case_when(
+    kommnr == '0528' ~ 'Østre Toten',
+    kommnr == '0529' ~ 'Vestre Toten',
+    kommnr == '0536' ~ 'Søndre Land',
+    kommnr == '0538' ~ 'Nordre Land',
+    kommnr == '0543' ~ 'Vestre Slidre',
+    kommnr == '0544' ~ 'Øystre Slidre',
+    kommnr == '0624' ~ 'Øvre Eiker',
+    kommnr == '0625' ~ 'Nedre Eiker',
+    kommnr == '0633' ~ 'Nore og Uvdal',
+    kommnr == '0701' ~ 'Horten',
+    kommnr == '0716' ~ 'Re',
+    kommnr == '0729' ~ 'Færder',
+    kommnr == '1850' ~ 'Tysfjord',
+    kommnr == '1920' ~ 'Lavangen',
+    kommnr == '1940' ~ 'Kåfjord',
+    kommnr == '2011' ~ 'Kautokeino',
+    kommnr == '2021' ~ 'Karasjok',
+    kommnr == '2025' ~ 'Tana',
+    kommnr == '2027' ~ 'Nesseby',
+    kommnr == '0729' ~ 'Færder',
+    kommnr == '0729' ~ 'Færder',
+    kommnr == '5027' ~ 'Midtre Gauldal',
+    kommnr == '5040' ~ 'Namdalseid',
+    kommnr == '5041' ~ 'Snåsa',
+    kommnr == '5043' ~ 'Røyrvik',
+    kommnr == '5054' ~ 'Indre Fosen',
+    TRUE ~ kommnavn
+  )) -> yrke_kommune
+
+
+syss_total %>% 
+  group_by(ISCO1) %>% 
+  summarize(antall = sum(antall),
+            remote_antall = sum(remote_count)) %>% 
+  ungroup() %>% 
+  left_join(yrke_kommune, by="ISCO1") %>% 
+  group_by(kommnavn) %>% 
+  summarize(antall = sum(antall), 
+            remote_antall = sum(remote_antall), 
+            remote_pct = sum(remote_antall)/sum(antall)
+            ) %>% 
+  ungroup() -> syss_total_komm
+
+wfh_map <- merge(nor, syss_total_komm, by.x="NAME_2", by.y="kommnavn", all.x=TRUE)
+
+nor2 %>% 
+  ggplot() +
+  geom_sf(aes(fill=hk_andel, color=remote_pct))
+  
+  
+```
+
+
+
 
 The first month of data is `r min(ads$statistikk_aar_mnd)`, and the last month of data is `r max(ads$statistikk_aar_mnd)`, and this dataset contains a total of `r nrow(ads)` job ads.
 
@@ -116,9 +340,10 @@ wfh_extended %>%
   summarize(wfh_prob = 100*mean(wfh), number_of_ads=n(), number_of_mentions=sum(wfh)) %>% 
   ungroup() %>% 
   mutate(relative_prob = 100*number_of_mentions/(sum(number_of_mentions)),
-         ISCO1 = ass_c[ISCO1])
+         ISCO1 = isco_labels[ISCO1])
 
 ```
+
 
 The frequencies do indeed suggest that working from home is afforded occupations that typically require higher education, but it is not a clean cut. Jobs in occupational group 4 are typically office jobs that don't require higher education, and has the second highest share of remote-mentions. Nonetheless, the pattern is clear.
 
@@ -215,7 +440,7 @@ ads_st1_stats %>%
   mutate(pctpts_diff = round(relative_prob_annotations-relative_prob_ads, 1),
          relative_prob_annotations = round(relative_prob_annotations, 1),
          relative_prob_ads = round(relative_prob_ads, 1),
-         ISCO1=ass_c[ISCO1]) %>% datatable(rownames=F)
+         ISCO1=isco_labels[ISCO1]) %>% datatable(rownames=F)
 
 
 ```
