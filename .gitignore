@@ -1,4 +1,6 @@
-
+*.Rproj
+.wget-hsts
+.rstudio/*
 # Custom
 *.RData
 _*

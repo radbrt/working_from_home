@@ -1,0 +1,10 @@
+version: '2'
+services:
+  rstudio:
+    image: rocker/geospatial
+    volumes:
+      -  ./:/home/rstudio/
+    ports:
+      - 8787:8787
+    environment:
+      - PASSWORD=lilletrille

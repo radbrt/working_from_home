@@ -14,7 +14,11 @@ The ISCO standard is published by the international labor organization (ILO), an
 Using these descriptions, we used crowdsourcing to create a categorization of wether the job could be performed from home. Each description was annotated by 5 different (amateur) annotators, which resulted in a trinary categorization of occupations based on the description: "Remote-friendly", "not remote-friendly", and "Unknown". The latter category is intended to prevent occupations to randomly be categorized into one or the other group in cases where the job description does not provide sufficien information.
 
 ## Text matching in job ads
-The Norwegian welfare administration publishes full job ads in a machine readable format, and makes arkives of these ads publically available. Personal information (names, phone numbers etc) have been removed from the ads, but the ads are otherwise complete. Using the job text, we searched for ads mentioning being remote friendly (the norwegian term "hjemmekontor" is a precise indicator, but we also tried adding a few other common phrases). This approach is unquestionably very crude, but nonetheless informative and readily available.
+The Norwegian welfare administration publishes full job ads in a machine readable format, and makes arkives of these ads publically available. Personal information (names, phone numbers etc) have been removed from the ads, but the ads are otherwise complete. Data from this source is available as far back as 2002, but the generating algorithm for the data has changed significantly. At its outset, it was intended as a digitized verison of a job board, where terse job descriptions were posted together with contact information for further inquiries. In 2019, it was a farily comprehensive source covering practically all jobs that were advertised - with the exception of the solitary "help wanted" signs some stores place in their window. There is a jump in the data in 2018 as the NAV picked up more sources of ads from temp-agencies.
+
+Also, needless to mention, a data set of job ads can by definition not cover vacancies that were not advertised. As the purpose of this analysis is to reason about the workforce, this is an additional source of bias.
+
+Using the job text, we searched for ads mentioning being remote friendly (the norwegian term "hjemmekontor" is a precise indicator, but we also tried adding a few other common phrases). This approach is unquestionably very crude, but nonetheless informative and readily available.
 
 ## Results
 

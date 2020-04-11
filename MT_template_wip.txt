@@ -1,0 +1,25 @@
+<script src="https://assets.crowd.aws/crowd-html-elements.js"></script>
+
+<crowd-form>
+    <crowd-classifier
+      name="category"
+      categories="['Yes', 'No', 'Unknown']"
+      header="Can this type of job likely be performed from a home office?"
+    >
+      <classification-target>
+        <h3>{{ task.input.title.dataObject.title }}</h3>
+        <p><strong>Job description: </strong>{{ task.input.title.dataObject.description }}</p>
+      </classification-target>
+
+      <full-instructions header="Text Categorization Instructions">
+        <p><strong>Yes</strong> This job can be performed primarily from an office in a private home</p>
+        <p><strong>No</strong> Substatantial parts of this job must be performed outside the employees home</p>
+        <p><strong>Unknown</strong>: when there is not enough information to decide</p>
+        <p>Some jobs may be feasible to perform from home over shorter periods of time. Jobs that likely can be performed from home for more than 14 days can be considered <strong>yes</strong>, can be performed from home.</p>
+      </full-instructions>
+
+      <short-instructions>
+       Choose the most relevant category that is expressed by the text.
+      </short-instructions>
+    </crowd-classifier>
+</crowd-form>
