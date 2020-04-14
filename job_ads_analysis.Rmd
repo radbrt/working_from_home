@@ -58,23 +58,38 @@ isco_labels <- c('0'='Armed forces and unspecified',
 
 
 ## Abstract
-The COVI-19 crisis has forced great societal changes, including forcing many to work remotely (work from home) in an effort to increase social distancing. The ability to work from home has long been considered a perk, but we have few estimates of how many are actually able to work from home.
+The COVID-19 pandemic has forced great societal changes, including forcing many to work remotely (work from home) in an effort to increase social distancing. The ability to work from home has long been considered a perk, but only a few surveys have covered this. We demonstrate two alternative approaches to estimating the opportunities of working remotely, and compare the results with existing survey data.
 
-Social media has been quick to argue that the people who are able to work at home are already privilidged, highly educated and highly paid, while those who still have to go to work are more often in low-paid but critical roles such as drivers and grocers. This paper attempts to estimate the share of the norwegian workforce able to work remotely by combining register-based labor statistics, annotated job ads and the official documentation of the ISCO-08 standard which is used both in labor statistics and in the job ads.
 
-We find that approximately 34% of norwegian jobs can be performed at home.
 
 ## Introduction
 
-Most data about the norwegian workforce is based on register data, and the information we have about what people do at work are based on occupational codes following the ISCO standard. Labor statistics are currently published following the ISCO-08 standard [@ISCO:08].
+The COVID-19 pandemic has propelled the question of working from home into the spotlight, as a matter of enforcing social distancing. The crisis has forced us to learn more about what possibilities for working remotely already exists, including questions about what percentage of the workforce are able to work from home, and what types of jobs can be done from home.
+
+In 2018, the norwegian LFS in  asked respondents if they were able and allowed to work from home at times. After the pandemic outbreak, at least one [TODO: REF] survey has employees about their new work situation with respect to working from home.
+
+Social media has been quick to argue that the people who are able to work at home are already privilidged, highly educated and highly paid, while those who still have to go to work are more often in low-paid but critical roles such as drivers and grocers.
+
+In an alternative approach focusing on existing occupation classifications, we estimate the share of the norwegian workforce able to work remotely by combining register-based labor statistics, annotated job advertisements, and the official documentation of the ISCO-08 standard which is used both in labor statistics and in the job ads. Most of the data about the norwegian workforce is based on register data, and the information we have about what people do at work are based on occupational codes following the ISCO standard. Labor statistics are currently published following the ISCO-08 standard [@ISCO:08].
 
 ISCO-08 is a taxonomy aimed at classifying jobs into "occupations", which are relatable to the reader. These occupations do not say directly wether the job can be performed from home. By evaluating the ISCO-08 documentation, we are able to categorize each occupation as likely or unlikely to be remote-friendly. This classification is evaluated against job ads published by the norwegian welfare administration (NAV) between january 2012 and march 2019, in which there are mentions of remote possibilities.
+
+We find that approximately 34% of norwegian jobs can be performed from home.
 
 ## Methodology
 
 In order annotate the ISCO-08 documentation and provide a assertion of wether each occupation is likely able to be performed from home, we created a public labeling job through Amazon Mechanical Turk [@MT]. Each occupation was presented together with a brief description, and the respondent was asked to evaluate wether it was likely that the job could be performed from a private home for a period of up to two weeks. We consider that two weeks is enough to argue that the job can *mainly* be performed from home. Two weeks is an arbitrary line to draw, but the neuances of this timeframe is unlikely to have any significant effect on the result.
 
-In order to reduce the serendipity in the labels, we aquired five labels from different respondents for each occupation, and we provided an "uncertain" option in addition to the "yes/no" options in order to reduce arbitrary responses to uninformative occupation descriptions.
+The exact question formulation was "Can this type of job likely be performed from a home office?", and an example of a job description could be:
+
+> Social work and counselling professionals provide advice and guidance to individuals, families, groups, communities and organizations in response to social and personal difficulties.  They assist clients to develop skills and access resources and support services needed to respond to issues arising from unemployment, poverty, disability, addiction, criminal and delinquent behaviour, marital and other problems.
+
+The alternatives were "Yes", "No" and "Unknown", which were provided with the following description: 
+- Yes: This job can be performed primarily from an office in a private home
+- No: Substatantial parts of this job must be performed outside the employees home
+- Unknown: There is not enough information to decide
+
+The last option, "Unknown" was added in order to reduce arbitrary responses to uninformative occupation descriptions.
 
 Since the job was on Mechanical Turk, there respondents are not subject matter experts, and likely reside in different countries. This adds to the importance of obtaining more than one label per occupation, but the number of labels does not correct for possible cultural differences - it is possible that some jobs that cannot be performed remotely in other countries can be performed remotely in Norway. We should consider the annotations as "international", which is also true for the ISCO-08 standard itself.
 
@@ -136,7 +151,9 @@ ads_st1_stats %>%
   inner_join(annotations_st1_stats, by='ISCO1') %>%
   select(ISCO1, relative_prob_annotations, relative_prob_ads) %>%
   mutate(pctpts_diff = relative_prob_annotations-relative_prob_ads,
-         ISCO1=isco_labels[ISCO1]) %>%
+         ISCO1=isco_labels[ISCO1])  -> ads_st1_table
+
+ads_st1_table %>% 
   gt() %>%
   tab_header("Relative frequency of remote-possibilities across ISCO groups") %>%
   fmt_percent(columns = vars(relative_prob_annotations, relative_prob_ads, pctpts_diff), decimals = 1, dec_mark = ",") %>%
@@ -158,6 +175,8 @@ ads_st1_stats %>%
 ```
 
 The noteable discrepancies for the groups "Service and sales workers" and "Clearical support workers" have a strange symmetry. These two groups share a lot of similarities, but one of the differentiators are that sales jobs are explicitly customer facing, while clerical support workers typically work in a backoffice position. Intuitively this would suggest that somehow the annotations are correct while the job ads are incorrect, but many explanations exist.
+
+
 
 The correlation between the two measures are strong, but in order to evaluate it statistically we would benefit from more detailed data. One approach is to use a logistic regression explaining the annotation of an occupation (a binary label) with the ratio of mentions of "hjemmekontor" in the ad.
 
