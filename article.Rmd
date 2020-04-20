@@ -10,31 +10,37 @@ title: "New sources for evaluating remote-friendly jobs"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(cache=TRUE,
-                      message=FALSE, 
-                      warning=FALSE,
-                      echo = FALSE,
-                      fig.path='figs/',
-                      cache.path = '_cache/',
-                      fig.process = function(x) {
-                      x2 = sub('-\\d+([.][a-z]+)$', '\\1', x)
-                      if (file.rename(x, x2)) x2 else x
-                      })
 
+source("data_scripts/000_includes.R")
+library(spatstat)
 
+knitr::opts_chunk$set(
+	echo = FALSE,
 options(scipen=999, big.mark=" ", digits=1)
+)
 
 
 knitr::knit_hooks$set(inline = function(x) {
 prettyNum(x, big.mark=" ", decimal.mark=",", digits=1)
 })
 
-source("data_scripts/000_includes.R")
+
 
  
 ```
 
 ## Introduction
+
+```{r total_remote_pct, include=FALSE}
+
+load("workdata/syss_total.RData")
+load("workdata/weighted_st1_stats.RData")
+load("workdata/annotations.RData")
+
+wfh_label <- c("0"='No', "1"='Yes')
+
+```
+
 
 The COVID-19 pandemic has elevated remote work from a job perk to an important measure to increase social distancing. The crisis has forced us to learn more about what possibilities for working remotely already exists, including questions about what percentage of the workforce are able to work from home, and what types of jobs can be done from home. Some surveys have illuminated aspects of remote opportunities, but more questions remain.
 
@@ -47,7 +53,7 @@ The fact that a job can be performed remotely does not mean that the employer al
 We compare our findings with those published in [@FAFO:HK], which are based on the norwegian labor force survey in 2018 where respondents were asked wether their employer allowed occasional remote work. Yet again this is a different question than the one answered by our own sources.
 
 
-## Methodology
+## Classification of remote work feasibility for ISCO occupations
 
 In order annotate the ISCO-08 documentation and provide a assertion of wether each occupation is likely able to be performed from home, we created a public labeling job through Amazon Mechanical Turk [@MT]. Each occupation was presented together with a brief description, and the respondent was asked to evaluate wether it was likely that the job could be performed from a private home.
 
@@ -67,74 +73,11 @@ Since the job was on Mechanical Turk, there respondents are not subject matter e
 The annotations are evaluated against a second novel data source - job ads from the norwegian welfare administration. Since the possibility to work from home is a perk for many, some employers mention it in their job ads in order to attract candidates. We search the texts for mentions of "hjemmekontor" and "heimekontor", two distinctive words unlikely to mean anything other than the possibility of working from home. Since far from every employer advertise this possibility, it is difficult to say anything about the total number of remote-friendly jobs from these ads. It does however say something important about the relative frequency of remote-friendly jobs across occupational groups, which we can compare to results from Mechanical Turk annotations and from surveys.
 
 
-## Results
-
-### Total remote-percentage
-
-```{r total_remote_pct, include=FALSE}
-
-load("workdata/syss_total.RData")
-load("workdata/annotations.RData")
-
-```
-
+##  Results
 
 From the Mechanical Turk annotations we see that `r prettyNum(100*mean(annotations$wfh_dummy))` per cent of the occupations can likely be performed from home. Taken together with the labor statistics per occupation, we find that `r prettyNum(sum(syss_total$remote_count))` jobs, `r prettyNum(100*sum(syss_total$remote_count)/sum(syss_total$antall) )` per cent of the workforce, are likely able to work from home. This estimate is remarkably similar to a recent NBER working paper [@NBER:1], which also inspired this paper.
 
-### Validating results against job-ads
-
-The job ads can not be compared directly to the annotated ISCO-08 data, but one of the comparisons we are able to do is the relative frequency of remote possibilities across occupations. Some job ads mention remote work, and we expect that remote possibilities are mentioned more often within groups where remote are greater.
-
-<!-- FIX TEXT -->
-We can calculate the fraction of ads mentioning remote work within each occupational group by tabulating the number of ads mentioning "hjemmekontor" and the total number of ads within each group. Since these fractions don't directly compare to the equivalent fractions in the annotated, data, we compare the relative frequencies, which can be interpreted as: Of all the occupations,  
-
-We compare this frequency with the number of remote-friendly occupations within each broader group. We also compute the composition of remote-friendly jobs across the occupational groups, giving us a measure that is directly comparable.
-
-
-```{r validate_mt_ads_table}
-
-load("workdata/ads_table.RData")
-
-knitr::kable(ads_table, digits = 1)
-
-```
-
-The differences here are generally minor considering the disparate data sources, but for academic occupations the difference between the annotations and the ads data requires comment. There are multiple possible interpretations. One is that annotators have been too optimistic in their assertion that the job can be done from home. Another is that the possibility of working from home is taken for granted in many of these occupations, and advertising it is therefore superfluous. Yet another possibility is that these occupations are indeed very remote friendly, but employers are conservative in letting employees bring their job home. In the first case, covid-19 won't see the level of remote adoption that are indicated by the annotations, but in either of the latter cases, employers may find themselves sending their employees home in troves.
-
-The correlation between the two measures are strong, but in order to evaluate it statistically we would benefit from more detailed data. One approach is to use a logistic regression explaining the annotation of an occupation (a binary label) with the ratio of mentions of "hjemmekontor" in the ad.
-
-
-```{r validate_mt_ads_reg}
-# STILL OK OR NEEDS FIXING? ISCO-LEVEL, REMOVE UNCOMMON ISCOS?
-
-load("workdata/ads_annotated.RData")
-
-m <- glm(wfh_dummy ~ wfh_prob, data=ads_annotated, family = "binomial" )
-
-tidy(m) %>%
-  mutate(term = ifelse(term=='wfh_prob', 'Remote mentions', term)) %>% 
-  knitr::kable(digits = 5)
-```
-
-Menitoning "hjemmekontor" in the add is significantly correlated with the annotation, if only within an inch of the usual 5 % significance threshold. Given the spuriousness of the data sources, the results seem fairly well aligned.
-
-As a pragmatic final check we include the frequency of occupations in the comparison. Like many other high-cardinality categorical variables, we see some very common occupations and a long tail of less frequent ones. When analyzing real data, the most common occupations will have a major effect on the results, while the more esoteric ones are less likely to impact the analysis.
-
-```{r weighted_pct}
-
-load("workdata/weighted_st1_stats.Rdata")
-
-weighted_st1_stats %>% 
-  select(-starts_with("n_")) %>% 
-  #mutate(ISCO1=isco_labels[ISCO1]) %>% 
-  knitr::kable(digits = 1)
-
-```
-
-The weighted comparisons show a similar pattern, Academic occupations still appear to underadvertise or underutilize remote possibilities compared to what the annotations suggests, but the weighted numbers show a large new difference for Technicians and associate professionals. This may suggest that one or more large occupations within this broader group advertise their remote possibilities more than normal, or that the annotations are incorrect.
-
-
-### Analyzing the remote occupations
+### Remote percent from empirical data
 
 We can see what percentage of occupations are remote-friendly across occupational groups:
 
@@ -146,39 +89,183 @@ syss_total %>%
   group_by(ISCO1) %>% 
   summarize(antall = sum(antall),
             remote_antall = sum(remote_count),
-    remote_pct = 1010*sum(remote_count)/sum(antall)) %>% 
+    remote_pct = sum(remote_count)/sum(antall)) %>% 
   ungroup() %>% 
   mutate(ISCO1=isco_labels[ISCO1]) -> syss_isco1_table
 
 syss_isco1_table %>% 
-  knitr::kable(digits=1)
+  gt() %>% 
+  tab_spanner(
+    columns = vars(antall, remote_antall),
+    label="Number of jobs"
+  ) %>% 
+  cols_label(ISCO1 = "Occupational Group",
+             antall = "Total",
+             remote_antall = "Remote-friendly",
+             remote_pct = "Percent remote friendly"
+             ) %>% 
+  fmt_percent(columns=vars(remote_pct), decimals = 1, dec_mark = "," ) %>% 
+  fmt_number(columns=vars(antall, remote_antall), decimals = 0, sep_mark = " ")
+
+
   
 ```
 
 
-For each occupational group, the share of jobs that can be performed remotely varies from `r round(min(syss_isco1_table$remote_pct), 1)` to `r round(max(syss_isco1_table$remote_pct), 1)` per cent. Academics and managers are both groups where more than half of the employees can be done remotely, but an even higher share of clerical support workers are likely able to do their jobs from home.
+For each occupational group, the share of jobs that can be performed remotely varies from `r round(min(syss_isco1_table$remote_pct*100), 1)` to `r round(max(syss_isco1_table$remote_pct*100), 1)` per cent. Academics and managers are both groups where more than half of the employees can be done remotely, but an even higher share of clerical support workers are likely able to do their jobs from home.
 
 This bears resemblance to the table comparing the relative percentages of ads and annotations, but now using absolute numbers. Managers and academics do indeed often have jobs that can be performed from home, but this is even more the case for clerical support workers where two thirds theoretically could be working from home.
 
 The geographic location of jobs have been a point of interest for years, amid both pressure for workers to centralize and specialize, and fears of increased inequality between cities and rural areas. Cities have a higher share of remote-friendly jobs, which may be fortunate given the need for social distancing.
 
+
+In general, occupations that can be performed remotely also pay better.
+
+```{r}
+
+library(tidyverse)
+library(ggridges)
+library(arrow)
+
+isco_labels <- c('0'='Armed forces and unspecified', 
+           '1'='Managers', 
+           '2'='Academics', 
+           '3'='Technicians and associate professionals', 
+           '4'='clerical support workers',
+           '5'= 'Service and sales workers',
+           '6'='Skilled agricultural, forestry and fishery workers',
+           '7'='Craft and related trades workers',
+           '8'='Plant and machine operators and assemblers',
+           '9'='Elementary Occupations')
+
+annot <- read_parquet('master_data/mt_data.parquet')
+
+lonn <- read_feather('workdata/earnings.feather')
+
+
+lonn %>% 
+  inner_join(annot, by="ISCO") -> annotated_lonn
+
+annotated_lonn %>% 
+  group_by(wfh) %>% 
+  summarize(mean_earnings = weighted.mean(snitt, antall, na.rm=T), median_earnings = weighted.median(median, antall, na.rm=T)) %>% 
+  gt() %>% 
+  tab_header("Earnings for remopte workers") %>%
+  cols_label(wfh = 'Remote',
+             mean_earnings = "Average earnings",
+             median_earnings = "Median earnings") %>%
+  fmt_number(columns = vars(mean_earnings, median_earnings), decimals = 0, sep_mark=" ") 
+```
+
+If we split by occupational group
+
+```{r}
+isco_labels <- c(
+  '1'='Managers', 
+  '2'='Academics', 
+  '3'='Assc. professionals', 
+  '4'='Clerics',
+  '5'= 'Service workers',
+  '6'='Agricultural workers',
+  '7'='Craft workers')
+
+annot <- read_parquet('master_data/mt_data.parquet')
+
+lonn <- read_feather('workdata/earnings.feather')
+
+
+lonn %>% 
+  inner_join(annot, by="ISCO") -> annotated_lonn2
+
+annotated_lonn2$isco1_text = factor(annotated_lonn2$ISCO1, levels=names(isco_labels), labels=isco_labels)
+
+wfh_label <- c("0"='No', "1"='Yes')
+
+annotated_lonn2 %>% 
+  filter(ISCO1<'8') %>% 
+  mutate(remote = wfh_label[as.character(wfh_dummy)]) %>% 
+  mutate(remote = wfh_label[as.character(wfh_dummy)]) %>% 
+  ggplot(aes( remote, snitt, fill=remote )) + 
+  stat_boxplot(geom="errorbar") +
+  expand_limits(y=0) +
+  geom_boxplot() + 
+  labs(y="Total earnings", x="Remote", fill = "Remote") +
+  facet_grid(~ isco1_text)
+```
+
+
+
+### geo
+
 ```{r annotations_syss_map, echo=FALSE}
 
 
-load("workdata/wfh_map.RData")
+ load("workdata/wfh_map.RData")
+ load("workdata/syss_total_komm.RData")
 
-wfh_map %>% 
+wfh_map %>%
   ggplot() +
   geom_sf(aes(fill=remote_pct, color=remote_pct)) +
   labs(fill="Remote percent", color="Remote percent") +
-  theme_bw()
-  
+  theme_bw() +
+  scale_fill_gradient(low = "#ededed", high = "#0305ff", na.value = "#999999") +
+  scale_color_gradient(low = "#ededed", high = "#0305ff", na.value = "#999999") +
+  ggsave("geo.png")
   
 ```
 
 
 
 The pattern looks clear, especially in the area surrounding Oslo but also the other cities like Bergen, Trondheim and Stavanger seems to stand out on the map.
+
+The top and bottom munies are as follows:
+
+
+```{r}
+
+syss_total_komm %>% 
+  arrange(desc(remote_pct)) %>% 
+  dplyr::select(-kommnr) %>% 
+  mutate(remote_pct = remote_pct/100) %>% 
+  head(n=5) %>% 
+  gt() %>% 
+  tab_spanner(
+    columns = vars(antall, remote_antall),
+    label="Number of jobs"
+  ) %>% 
+  cols_label(kommnavn = "Municipality",
+             antall = "Total",
+             remote_antall = "Remote-friendly",
+             remote_pct = "Percent remote friendly"
+             ) %>% 
+  fmt_percent(columns=vars(remote_pct), decimals = 1, dec_mark = "," ) %>% 
+  fmt_number(columns=vars(antall, remote_antall), decimals = 0, sep_mark = " ") %>% 
+  as_latex() %>% 
+  as.character() %>% 
+  cat()
+
+
+syss_total_komm %>% 
+  dplyr::select(-kommnr) %>% 
+  mutate(remote_pct = remote_pct/100) %>% 
+  arrange(remote_pct) %>% 
+  head(n=5) %>% 
+  gt() %>% 
+    tab_spanner(
+    columns = vars(antall, remote_antall),
+    label="Number of jobs"
+  ) %>% 
+  cols_label(kommnavn = "Municipality",
+             antall = "Total",
+             remote_antall = "Remote-friendly",
+             remote_pct = "Percent remote friendly"
+             ) %>% 
+  fmt_percent(columns=vars(remote_pct), decimals = 1, dec_mark = "," ) %>% 
+  fmt_number(columns=vars(antall, remote_antall), decimals = 0, sep_mark = " ") %>% 
+  as_latex() %>% 
+  as.character() %>% 
+  cat()
+```
 
 By introducing a measure of urbanness, we can analyze the relationship more formally. Using population per square km as a proxy for urbanness, we see a clear correlation between "urbanness", or population pr km$^2$, and the availability of remote-friendly jobs.
 
@@ -189,7 +276,7 @@ load("workdata/areas_isco.RData")
 areas_isco %>% 
   ggplot(aes(density, remote_pct)) +
   geom_point() +
-  geom_smooth(method='lm', message=FALSE) + 
+  geom_smooth(message=FALSE) + 
   scale_x_log10() +
   scale_y_log10() +
   labs(x="Population pr square km", y="Percent of workers with remote-friendly jobs")
@@ -206,8 +293,97 @@ load("workdata/areas_isco.RData")
 m <- lm(remote_pct ~ density, data=areas_isco)
 
 tidy(m) %>%
-  knitr::kable(digits=4)
+  mutate(term = ifelse(term=='remote_pct', 'Remote percent', term)) %>%
+  gt() %>% 
+  fmt_number(columns = vars(p.value), decimals=5) %>% 
+  cols_label(term = "Coefficient",
+             estimate = "Estimate",
+             std.error = "Standard Error",
+             statistic = "Statistic",
+             p.value = "P-value"
+             ) 
+  
+
 ```
+
+
+### Validating results against job-ads
+
+The job ads can not be compared directly to the annotated ISCO-08 data, but one of the comparisons we are able to do is the relative frequency of remote possibilities across occupations. Some job ads mention remote work, and we expect that remote possibilities are mentioned more often within groups where remote are greater.
+
+<!-- FIX TEXT -->
+We can calculate the fraction of ads mentioning remote work within each occupational group by tabulating the number of ads mentioning "hjemmekontor" and the total number of ads within each group. Since these fractions don't directly compare to the equivalent fractions in the annotated, data, we compare the relative frequencies, which can be interpreted as: Of all the occupations,  
+
+We compare this frequency with the number of remote-friendly occupations within each broader group. We also compute the composition of remote-friendly jobs across the occupational groups, giving us a measure that is directly comparable.
+
+
+```{r validate_ads_weighted_pct}
+
+load("workdata/weighted_st1_stats.Rdata")
+
+weighted_st1_stats %>% 
+  select(-starts_with("n_")) %>% 
+  mutate(ISCO1=isco_labels[ISCO1]) %>% 
+  gt() %>%
+  tab_header("Relative frequency of remote-possibilities across ISCO groups") %>%
+  fmt_percent(columns = vars(relative_prob_annotations, relative_prob_ads, diff), decimals = 1, dec_mark = ",") %>%
+  cols_label(ISCO1 = 'Occupational group',
+             relative_prob_annotations = "Annotations",
+             relative_prob_ads = "Job ads",
+             diff = "Difference") %>%
+  tab_spanner(
+    columns = vars(relative_prob_annotations, relative_prob_ads),
+    label="Relative remote frequency"
+  )
+
+```
+
+
+
+The differences here are generally minor considering the disparate data sources, but for academic occupations the difference between the annotations and the ads data requires comment. There are multiple possible interpretations. One is that annotators have been too optimistic in their assertion that the job can be done from home. Another is that the possibility of working from home is taken for granted in many of these occupations, and advertising it is therefore superfluous. Yet another possibility is that these occupations are indeed very remote friendly, but employers are conservative in letting employees bring their job home. In the first case, covid-19 won't see the level of remote adoption that are indicated by the annotations, but in either of the latter cases, employers may find themselves sending their employees home in troves.
+
+The correlation between the two measures are strong, but in order to evaluate it statistically we would benefit from more detailed data. One approach is to use a logistic regression explaining the annotation of an occupation (a binary label) with the ratio of mentions of "hjemmekontor" in the ad.
+
+
+```{r validate_mt_ads_reg}
+# STILL OK OR NEEDS FIXING? ISCO-LEVEL, REMOVE UNCOMMON ISCOS?
+library(gt)
+load("workdata/ads_annotated18.RData")
+  
+ads_annotated18$mentions1000 <- 1000*ads_annotated18$wfh_prob
+
+m <- glm(wfh_dummy ~ mentions1000 , data=ads_annotated18, family = "binomial" )
+
+
+preds <- predict.glm(m, ads_annotated18, type="response")>0.5
+#+ factor(ISCO1) + number_of_ads
+
+tidy(m) %>%
+  mutate(term = ifelse(term=='wfh_prob', 'Remote mentions', term)) %>%
+  gt()
+
+summary(m)
+
+exp(cbind(coef(m), confint(m)))
+
+exp(coef(m))
+
+
+```
+
+Menitoning "hjemmekontor" in the add is significantly correlated with the annotation, if only within an inch of the usual 5 % significance threshold. Given the spuriousness of the data sources, the results seem fairly well aligned.
+
+As a pragmatic final check we include the frequency of occupations in the comparison. Like many other high-cardinality categorical variables, we see some very common occupations and a long tail of less frequent ones. When analyzing real data, the most common occupations will have a major effect on the results, while the more esoteric ones are less likely to impact the analysis.
+
+
+
+The weighted comparisons show a similar pattern, Academic occupations still appear to underadvertise or underutilize remote possibilities compared to what the annotations suggests, but the weighted numbers show a large new difference for Technicians and associate professionals. This may suggest that one or more large occupations within this broader group advertise their remote possibilities more than normal, or that the annotations are incorrect.
+
+
+### Predicting the feasability of remote work
+
+
+
 
 
 ## Similar work
