@@ -7,13 +7,19 @@ annotations <- read_parquet('master_data/mt_data.parquet') %>%
 
 
 wfh %>%
+  filter(statistikk_aar_mnd>='2018') %>% 
   group_by(yrkeskode) %>%
   summarize(wfh_prob = mean(wfh), number_of_ads=n(), number_of_mentions=sum(wfh)) %>%
   ungroup() %>%
-  mutate(relative_prob_ads = number_of_mentions/(sum(number_of_mentions))) -> ads_yrke
+  mutate(relative_prob_ads = number_of_mentions/(sum(number_of_mentions))) %>% 
+  filter(number_of_ads>=3) -> ads_yrke_18
 
 
 annotations %>%
-  inner_join(ads_yrke, by=c("ISCO"="yrkeskode")) -> ads_annotated
+  inner_join(ads_yrke_18, by=c("ISCO"="yrkeskode")) -> ads_annotated18
 
-save(ads_annotated, file="workdata/ads_annotated.RData")
+m <- glm(wfh_dummy ~ wfh_prob , data=ads_annotated18, family = "binomial" )
+
+summary(m)
+
+save(ads_annotated18, file="workdata/ads_annotated18.RData")

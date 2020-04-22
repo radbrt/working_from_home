@@ -37,3 +37,26 @@ wfh_isco1_weighted %>%
 
 
 save(weighted_st1_stats, file="workdata/weighted_st1_stats.RData")
+
+
+weighted_st1_stats %>% 
+  select(-starts_with("n_")) %>% 
+  mutate(ISCO1=isco_labels[ISCO1]) %>% 
+  gt() %>%
+  tab_header("Relative frequency of remote-possibilities across ISCO groups") %>%
+  fmt_percent(columns = vars(relative_prob_annotations, relative_prob_ads, diff), decimals = 1, dec_mark = ",") %>%
+  cols_label(ISCO1 = 'Occupational group',
+             relative_prob_annotations = "Annotations",
+             relative_prob_ads = "Job ads",
+             diff = "Difference") %>%
+  tab_spanner(
+    columns = vars(relative_prob_annotations, relative_prob_ads),
+    label="Relative remote frequency"
+  ) %>%
+  as_latex()  %>% 
+  as.character() %>% 
+  cat
+
+
+
+
