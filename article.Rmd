@@ -6,7 +6,6 @@ header-includes:
   -  \usepackage{hyperref}
 biblio-style: apsr
 title: "New sources for evaluating remote-friendly jobs"
-
 ---
 
 ```{r setup, include=FALSE}
