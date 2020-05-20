@@ -8,3 +8,4 @@ ads %>%
          bedrift_naring_primar_kode, antall_stillinger) -> wfh
 
 save(wfh, file="workdata/wfh.RData")
+

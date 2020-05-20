@@ -47,6 +47,10 @@ knitr::opts_chunk$set(cache=TRUE,
 
 source("data_scripts/000_includes.R")
 library(spatstat)
+library(janitor)
+library(sf)
+library(rgdal)
+library(geojsonsf)
 
 knitr::knit_hooks$set(inline = function(x) {
 prettyNum(x, big.mark=" ", decimal.mark=",", digits=1)
@@ -81,7 +85,7 @@ There were two surveys in norway in which some remote work feasibility is asked:
 
 ## The International Standard Classification
 
-of Occupations organizes jobs into a set of groups according to the tasks and duties undertaken in the job. Using the detailed task descriptions listed in the ISCO-08 documentation, we try to provide a assertion of whether an occupation is likely able to be performed from home. To do this, we created a public labeling job through Amazon Mechanical Turk [@Turk2020]. Each occupation was presented together with a brief description. The exact question formulation was “Can this type of job likely be performed from a home office?”, and an example of a job description could be:
+The ISCO standard organizes jobs into a set of groups according to the tasks and duties undertaken in the job. Using the detailed task descriptions listed in the ISCO-08 documentation, we try to provide a assertion of whether an occupation is likely able to be performed from home. To do this, we created a public labeling job through Amazon Mechanical Turk [@Turk2020]. Each occupation was presented together with a brief description. The exact question formulation was “Can this type of job likely be performed from a home office?”, and an example of a job description could be:
 
 >Social work and counselling professionals provide advice and guidance to individuals, families, groups, communities and organizations in response to social and personal difficulties. They assist clients to develop skills and access resources and support services needed to respond to issues arising from unemployment, poverty, disability, addiction, criminal and delinquent behaviour, marital and other problems.
 
@@ -119,10 +123,10 @@ A note on nomenclature: For brevity, we sometimes refer to "remote" occupations 
 From the Mechanical Turk annotations, around 28 per cent of the occupations can likely be performed from home. Combining the annotations with labor statistics published per occupation, we find that 875 344 wage employers, 36 per cent of the workforce, are likely able to work from home.
 
 
-From the Mechanical Turk annotations we see that `r prettyNum(100*mean(annotations$wfh_dummy))` per cent of the occupations can likely be performed from home. Taken together with the labor statistics per occupation, we find that `r prettyNum(sum(syss_total$remote_count))` jobs, `r prettyNum(100*sum(syss_total$remote_count)/sum(syss_total$antall) )` per cent of the workforce, are likely able to work from home.
+From the Mechanical Turk annotations we see that `r prettyNum(100*mean(annotations$wfh_prob))` per cent of the occupations can likely be performed from home. Taken together with the labor statistics per occupation, we find that `r prettyNum(sum(syss_total$remote_count))` jobs, `r prettyNum(100*sum(syss_total$remote_count)/sum(syss_total$antall) )` per cent of the workforce, are likely able to work from home.
 
 
-From the Mechanical Turk annotations, around `r prettyNum(100*mean(annotations$wfh_dummy))` per cent of the
+From the Mechanical Turk annotations, around `r prettyNum(100*mean(annotations$wfh_prob))` per cent of the
 occupations can likely be performed from home. Taken together with the labor statistics per occupation, we find that `r prettyNum(sum(syss_total$remote_count))` wage employees, `r prettyNum(100*sum(syss_total$remote_count)/sum(syss_total$antall) )` per cent of the workforce, are likely able to work from home.
 
 Splitting the annotated data into occupational groups, we estimate what percentage of occupations are remote-friendly across occupational groups. The results are presented in Table tab:Percent_occupation} [!TODO]. For each broad occupational group, the share of jobs that can be performed remotely varies from 0 to 67 per cent. Academics and managers are both groups where more than half of the employees can be done remotely, but an even higher share of clerical support workers are likely able to do their jobs from home.
@@ -131,7 +135,20 @@ Splitting the annotated data into occupational groups, we estimate what percenta
 
 load("workdata/syss_total.RData")
 
+isco_labels <- c('0'='Armed forces and unspecified', 
+           '1'='Managers', 
+           '2'='Academics', 
+           '3'='Technicians and associate professionals', 
+           '4'='clerical support workers',
+           '5'= 'Service and sales workers',
+           '6'='Skilled agricultural, forestry and fishery workers',
+           '7'='Craft and related trades workers',
+           '8'='Plant and machine operators and assemblers',
+           '9'='Elementary Occupations')
+
+
 syss_total %>% 
+  mutate(ISCO1 = substr(ISCO,1,1)) %>% 
   group_by(ISCO1) %>% 
   summarize(antall = sum(antall),
             remote_antall = sum(remote_count),
@@ -151,7 +168,10 @@ syss_isco1_table %>%
              remote_pct = "Percent remote friendly"
              ) %>% 
   fmt_percent(columns=vars(remote_pct), decimals = 1, dec_mark = "," ) %>% 
-  fmt_number(columns=vars(antall, remote_antall), decimals = 0, sep_mark = " ")
+  fmt_number(columns=vars(antall, remote_antall), decimals = 0, sep_mark = " ") %>% 
+  as_latex() %>% 
+  as.character() %>% 
+  cat
 
 
   
@@ -165,18 +185,8 @@ library(tidyverse)
 library(ggridges)
 library(arrow)
 
-isco_labels <- c('0'='Armed forces and unspecified', 
-           '1'='Managers', 
-           '2'='Academics', 
-           '3'='Technicians and associate professionals', 
-           '4'='clerical support workers',
-           '5'= 'Service and sales workers',
-           '6'='Skilled agricultural, forestry and fishery workers',
-           '7'='Craft and related trades workers',
-           '8'='Plant and machine operators and assemblers',
-           '9'='Elementary Occupations')
 
-annot <- read_parquet('master_data/mt_data.parquet')
+annot <- read_parquet('master_data/mt_data_avg.parquet')
 
 lonn <- read_feather('workdata/earnings.feather')
 
@@ -185,15 +195,34 @@ lonn %>%
   inner_join(annot, by="ISCO") -> annotated_lonn
 
 annotated_lonn %>% 
+  mutate(wfh = case_when(
+    wfh_prob > 0.8 ~ 'High (>0.8)',
+    wfh_prob > 0.2 ~ 'Medium (0.2 - 0.8)',
+    TRUE ~ 'Low (<0.2)'
+  )) %>% 
+  mutate(wfh = factor(wfh, levels=c('High (>0.8)', 'Medium (0.2 - 0.8)', 'Low (<0.2)'))) %>% 
   group_by(wfh) %>% 
-  summarize(mean_earnings = weighted.mean(snitt, antall, na.rm=T), median_earnings = weighted.median(median, antall, na.rm=T)) %>% 
+  summarize(antall_yrker = n(),
+            antall_arbf = sum(antall, na.rm=T),
+            mean_earnings = weighted.mean(snitt, antall, na.rm=T), 
+            median_earnings = weighted.median(median, antall, na.rm=T)
+            ) %>% 
   gt() %>% 
-  #tab_header("Earnings for remopte workers") %>%
-  cols_label(wfh = 'Remote',
+  cols_align(columns = vars(wfh), align = "left") %>% 
+  cols_align(columns = vars(antall_yrker), align="right") %>% 
+  cols_label(wfh = 'Remote probability',
+             antall_yrker = "# of ocupations",
+             antall_arbf = "# of jobs",
              mean_earnings = "Average earnings",
              median_earnings = "Median earnings") %>%
-  fmt_number(columns = vars(mean_earnings, median_earnings), decimals = 0, sep_mark=" ") 
+  fmt_number(columns = vars(mean_earnings, median_earnings, antall_yrker, antall_arbf), decimals = 0, sep_mark=" ") %>% 
+  as_latex() %>% 
+  as.character() %>% 
+  cat
+  
 ```
+
+We simplify the remote probability further for the moment by converting it to a binary classification, simply rounding the probability to an integer (0 or 1). This allows us to present a more comprehensible view of the wage differences between remote- and non-remote jobs. 
 
 
 ```{r}
@@ -206,29 +235,24 @@ isco_labels <- c(
   '6'='Agricultural workers',
   '7'='Craft workers')
 
-annot <- read_parquet('master_data/mt_data.parquet')
-
-lonn <- read_feather('workdata/earnings.feather')
-
-
-lonn %>% 
-  inner_join(annot, by="ISCO") -> annotated_lonn2
-
-annotated_lonn2$isco1_text = factor(annotated_lonn2$ISCO1, levels=names(isco_labels), labels=isco_labels)
-
 wfh_label <- c("0"='No', "1"='Yes')
 
-annotated_lonn2 %>% 
-  filter(ISCO1<'8') %>% 
-  mutate(remote = wfh_label[as.character(wfh_dummy)]) %>% 
-  mutate(remote = wfh_label[as.character(wfh_dummy)]) %>% 
+annotated_lonn %>% 
+  mutate(ISCO1 = substr(ISCO,1,1)) %>% 
+  filter( ISCO1!='6' & ISCO1 <'8') %>% 
+  mutate(
+    remote = wfh_label[as.character(round(wfh_prob))],
+    isco1_text = factor(ISCO1, levels=names(isco_labels), labels=isco_labels)
+  ) %>% 
   ggplot(aes( remote, snitt, fill=remote )) + 
   stat_boxplot(geom="errorbar") +
   expand_limits(y=0) +
   geom_boxplot() + 
-  labs(y="Total earnings", x="Remote", fill = "Remote") +
+  labs(y="Total earnings", x="Remote") +
+  theme(legend.position = "none") +
   facet_grid(~ isco1_text) +
-  ggtitle("Earnings for remote and non-remote feasible jobs different ISCO groups")
+  ggtitle("Earnings for remote and non-remote feasible jobs different ISCO groups") +
+  ggsave('earnings_boxplot.png', width = 9)
 
 ```
 
@@ -249,7 +273,8 @@ wfh_map %>%
   theme_bw() +
   scale_fill_gradient(low = "#ededed", high = "#0305ff", na.value = "#999999") +
   scale_color_gradient(low = "#ededed", high = "#0305ff", na.value = "#999999") +
-  ggtitle("Percentage of workers can work from home, Norway")
+  ggtitle("Percentage of workers can work from home, Norway") +
+  ggsave('geo.png')
   
 ```
 
@@ -267,14 +292,17 @@ syss_total_komm %>%
   tab_spanner(
     columns = vars(antall, remote_antall),
     label="Number of jobs"
-  ) %>% 
+  ) %>%
   cols_label(kommnavn = "Municipality",
              antall = "Total",
              remote_antall = "Remote-friendly",
              remote_pct = "Percent remote friendly"
              ) %>% 
   fmt_percent(columns=vars(remote_pct), decimals = 1, dec_mark = "," ) %>% 
-  fmt_number(columns=vars(antall, remote_antall), decimals = 0, sep_mark = " ")
+  fmt_number(columns=vars(antall, remote_antall), decimals = 0, sep_mark = " ") %>% 
+  as_latex() %>% 
+  as.character() %>% 
+  cat
 
 
 syss_total_komm %>% 
@@ -287,14 +315,17 @@ syss_total_komm %>%
     tab_spanner(
     columns = vars(antall, remote_antall),
     label="Number of jobs"
-  ) %>% 
+  ) %>%
   cols_label(kommnavn = "Municipality",
              antall = "Total",
              remote_antall = "Remote-friendly",
              remote_pct = "Percent remote friendly"
              ) %>% 
   fmt_percent(columns=vars(remote_pct), decimals = 1, dec_mark = "," ) %>% 
-  fmt_number(columns=vars(antall, remote_antall), decimals = 0, sep_mark = " ")
+  fmt_number(columns=vars(antall, remote_antall), decimals = 0, sep_mark = " ") %>% 
+  as_latex() %>% 
+  as.character() %>% 
+  cat
 ```
 
 
@@ -307,15 +338,152 @@ load("workdata/areas_isco.RData")
 areas_isco %>% 
   ggplot(aes(density, remote_pct)) +
   geom_point() +
-  geom_smooth(message=FALSE) + 
+  geom_smooth(message=FALSE, method = 'lm') + 
   scale_x_log10() +
   scale_y_log10() +
   labs(x="Population pr square km", y="Percent of workers with remote-friendly jobs") +
-  ggtitle("Shares of Remote feasible jobs and population density")
+  ggtitle("Shares of Remote feasible jobs and population density") +
+  ggsave('urbanness.png')
 
 ```
 
 By introducing a measure of urbanness, we can analyze the relationship more formally. We use population per square km as a proxy for urbanness. From figure [TODO]figure:pop_density, we can see a clear correlation between `urbanness`, or population pr km$^2, and the availability of remote-friendly jobs. Denser locations imply greater risks of Covid-19 spread, but this increased risk may be mitigated by better opportunities for remote work. 
+
+# European results
+
+Employment by first-level ISCO codes are published by the european statistical agency Eurostat, and with a few assumptions these data can be used to estimate remote possibilities in the EU.
+
+Due to the lack of 4-digit ISCO codes from Eurostat, we use the aggregates from Norwegian data as an estimate for remote percentages for 1-digit groups.
+
+The countries with the highest share of remote-eligible jobs are rich countries, with Switzerland and Luxembourg topping the list. 
+
+```{r}
+estat_isco <- read_csv('master_data/isco1_eurostat_employment.csv') %>% 
+  clean_names() %>% 
+  filter(substr(geo, 1, 4)!='Euro')
+
+wfh_isco1 <- syss_total %>% 
+  mutate(ISCO1 = substr(ISCO,1,1)) %>% 
+  group_by(ISCO1) %>% 
+  summarize(total = sum(antall, na.rm=T), total_remote = sum(remote_count, na.rm=T)) %>% 
+  mutate(total_remote_share = total_remote/total)
+
+isco1 <- unique(estat_isco$isco08)
+isco_vals <- as.character(1:9)
+names(isco_vals) <- isco1
+
+
+estat_isco %>% 
+  mutate(ISCO1 = as.character(isco_vals[isco08])) %>% 
+  inner_join(wfh_isco1, by='ISCO1') -> estat_wfh
+
+estat_wfh %>% 
+  group_by(geo) %>% 
+  summarize(total_jobs = sum(value),
+            remote_jobs = sum(value*total_remote_share),
+            remote_share = sum(value*total_remote_share)/sum(value) ) -> eu_wfh_total
+
+
+eu_wfh_total %>% 
+  arrange(desc(remote_share)) %>% 
+  head() %>% 
+  gt() %>% 
+  #tab_header(title = "Most remote-eligible countries") %>% 
+  fmt_percent(columns = vars(remote_share)) %>% 
+  fmt_number(columns = vars(total_jobs, remote_jobs), sep_mark = " ", decimals = 0) %>% 
+  cols_label(geo = 'Country',
+             total_jobs = 'Total',
+             remote_jobs = "Remote-friendly",
+             remote_share = "Percent") %>% 
+    tab_spanner(
+    columns = vars(total_jobs, remote_jobs),
+    label="Number of jobs (thousand)"
+  ) %>% 
+  as_latex() %>% 
+  as.character() %>% 
+  cat
+
+
+```
+
+On the other side, the countries with the lowest share of remote-eligible jobs are mostly poorer countries in southeast europe.
+
+```{r}
+
+eu_wfh_total %>% 
+  arrange(remote_share) %>% 
+  head() %>% 
+  gt() %>% 
+  #tab_header(title = "Least remote-eligible countries") %>% 
+  fmt_percent(columns = vars(remote_share)) %>% 
+  fmt_number(columns = vars(total_jobs, remote_jobs), sep_mark = " ", decimals = 0) %>% 
+  cols_label(geo = 'Country',
+             total_jobs = 'Total',
+             remote_jobs = "Remote-friendly",
+             remote_share = "Percent") %>% 
+    tab_spanner(
+    columns = vars(total_jobs, remote_jobs),
+    label="Number of jobs (thousand)"
+  ) %>% 
+  as_latex() %>% 
+  as.character() %>% 
+  cat
+```
+
+
+
+
+```{r}
+
+e <- geojson_sf('master_data/NUTS_RG_60M_2016_4326_LEVL_0.geojson')
+
+special_cases <- c('United Kingdom' = 'UK', 
+                   'Turkey' = 'TR', 
+                   'Sweden' = 'SE', 
+                   'Slovakia' = 'SK', 
+                   'Slovenia' = 'SI',
+                   'Switzerland' = 'CH',
+                   'Serbia' = 'RS',
+                   'Portugal' = 'PT',
+                   'Poland' = 'PL',
+                   'North Macedonia' = 'MK',
+                   'Austria' = 'AT',
+                   'Netherlands' = 'NL',
+                   'Malta' = 'MT',
+                   'Latvia' = 'LV',
+                   'Lithuania' = 'LT',
+                   'Iceland' = 'IS',
+                   'Ireland' = 'IE',
+                   'Spain' = 'ES',
+                   'Estonia' = 'EE',
+                   'Germany (until 1990 former territory of the FRG)' = 'DE',
+                   'Denmark' = 'DK',
+                   'Greece' = 'EL',
+                   'Bulgaria' = 'BG',
+                   'Montenegro' = 'ME')
+
+eu_wfh_total %>% 
+  mutate(CCODE = substr(toupper(geo), 1, 2),
+         CCODE_SPECIAL = special_cases[geo]) %>%
+  mutate(CNTR_CODE = case_when(is.na(CCODE_SPECIAL) ~ CCODE,
+                               TRUE ~ CCODE_SPECIAL)) -> eu_wfh_total_ccode
+
+eu_wfh_map <- merge(e, eu_wfh_total_ccode, by='CNTR_CODE')
+
+eu_wfh_map %>% 
+  ggplot(aes(fill = remote_share)) + 
+  geom_sf(color="black", size=0.2) +
+  coord_sf(xlim = c(-25, 48), ylim = c(33, 73), expand = FALSE) + 
+  theme_bw() +
+  labs(fill="Remote percent") +
+  scale_fill_gradient(low = "#ededed", high = "#0105ff", na.value = "#999999") +
+  ggtitle("Percentage of workers can work from home, Europe") +
+  ggsave('eu_map.png')
+
+
+```
+
+
 
 # Validating results against job-ads
 
@@ -326,7 +494,7 @@ The job ads can not be compared directly to the annotated ISCO-08 data, but one 
 load("workdata/weighted_st1_stats.Rdata")
 
 weighted_st1_stats %>% 
-  select(-starts_with("n_")) %>% 
+  dplyr::select(-starts_with("n_")) %>% 
   mutate(ISCO1=isco_labels[ISCO1]) %>% 
   gt() %>%
   #tab_header("Relative frequency of remote-possibilities across ISCO groups") %>%
@@ -338,7 +506,10 @@ weighted_st1_stats %>%
   tab_spanner(
     columns = vars(relative_prob_annotations, relative_prob_ads),
     label="Relative remote frequency"
-  )
+  ) %>% 
+  as_latex() %>% 
+  as.character() %>% 
+  cat
 
 ```
 
@@ -360,58 +531,12 @@ On the other hand, for National Statistical Institutions in Europe, the most nat
 
 # Appendix
 
-## Notations
-
-Jobs are indexed using $i$. Each job belong to one occupation (indexed by $j$) which can be aggregated again to the ISCO group ( indexed by $g$). The set of jobs for occupation $j$ is denoted as $B(j)$ and the set of occupations for ISCO group $g$ is denoted as $D(g)$. 
-
-## The job ads data
-
-Job ads data contains all new jobs announced through NAV.
-
-Let $Y_{i}$ be the variable indicating whether the job announcement for job $i$ contains the phrase ``working from home'', i.e: 
-\[
-Y_{i}=\begin{cases}
-1 & \text{contains "hjemmearbeid"}\\
-0 & \text{otherwise}
-\end{cases}.
-\]
-
-Whether to list the phrase `working from home` in the announcement for job $i$ depends on the feasibility that the job can be performed remotely. However, it depends also other factors, such as whether the employee consider the feature ``working from home'' is important for them to draw high quality potential candidates. That is, for a job $i$ of occupation $j$, we can write 
-
-$$P(Y_{i} \& =1)=q_{a}(i)q_{f}(i)=p_{a}(j)p_{f}(j)\epsilon(i)$$
-where $p_{a}(i)$ is measures the mean probability that employee consider the working from home feature is important for job $i$, $p_{f}(i)$ is the probability that job $i$ is a ``working from home'' job, $E_{i\in B(j)}(q_{a}(i))=p_{a}(j)$ , $E_{i\in B(j)}(q_{f}(i))=p_{f}(j)$ and $E_{i\in B(j)}(\varepsilon(i))=1$. Using observed data, we have from (eq:prob_job[TODO]) 
-\[
-\bar{Y}_{j}=\frac{\sum_{i\in B(j)}Y_{i}}{n_{g}(j)}=p_{a}(j)p_{f}(j)\frac{\sum_{i\in B(j)}\varepsilon(i)}{n_{g}(j)}\longrightarrow p_{a}(j)p_{f}(j).
-\]
-Assume that $p_{a}(j)$ is a fixed number within the same ISCO group,
-then we see immediately that 
-
-
-$$ \frac{\bar{Y}_{j}}{\bar{Y}_{k}}\longrightarrow\frac{p_{f}(j)}{p_{f}(k)}.\label{eq:risk_ratio_occupation} $$
-
-That is, the risk ratio between two occupations within the same group
-can be consistently estimated. If we are willing to assume in addition
-that $p_{a}(j)$ is the same for all occupations, we have 
-\[
-\bar{Y}_{g}=\sum_{j\in D(g)}S_{g}(j)\bar{Y_{j}}\longrightarrow p_{a}p_{f}(g).
-\]
-where $p_{f}(g)=\sum_{j\in D(g)}S_{g}(j)p_{f}(j)$ is the feasibility
-measure for ISCO group $g$ and $S_{g}(j)$ is the share of jobs of
-occupation $j$ in ISCO group $g$. Similar to (eq:risk_ratio_occupation[TODO]),
-we have
-
-$$ \frac{\bar{Y}_{g}}{\bar{Y}_{l}}\rightarrow\frac{p_{f}(g)}{p_{f}(l)}.\label{eq:risk_ratio_isco} $$
-
-## The occupation annotation data
-
-This data set contains information of working from home feasibility information based on the description of the tasks for each occupation. For occupation $j$ it contains a dummy variable $A_{j}$ which indicates whether this occupation is working from home friendly, and a variable ($\tau_{j}$) which indicates how certain $A_{j}$ is. 
-
 ## Logit regression: consistency between two data sources
-$$latex
-In order to evaluate it statistically we would benefit from more detailed data. One approach is to use a logistic regression explaining the annotation of an occupation (a binary label) with the ratio of mentions of\textquotedblleft hjemmekontor\textquotedblright{} in the ad. Since mentions are quite rare in the ads, we computed \textquotedblright mentions pr 1000 ads\textquotedblright{} as a more intuitive measure.
-$
 
-$$latex
+In order to evaluate it statistically we would benefit from more detailed data. One approach is to use a logistic regression explaining the annotation of an occupation (a binary label) with the ratio of mentions of\textquotedblleft hjemmekontor\textquotedblright{} in the ad. Since mentions are quite rare in the ads, we computed \textquotedblright mentions pr 1000 ads\textquotedblright{} as a more intuitive measure.
+
+
+$$
 
 \begin{table}[t!]
 \setlength\arrayrulewidth{0.75pt}
@@ -427,8 +552,7 @@ Mentions pr 1000 & 0.08 & 0.02 & 4 & 0.0001 \\
 \end{tabular}
 \label{tab:logit}
 \end{table}
-
-$
+$$
 
 
 

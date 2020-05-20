@@ -45,6 +45,7 @@ yrke_kommune %>%
 
 
 syss_total %>% 
+  mutate(ISCO1 = substr(ISCO,1,1)) %>% 
   group_by(ISCO1) %>% 
   summarize(remote_pct_isco1 = sum(remote_count)/sum(antall)) %>% 
   ungroup() %>% 

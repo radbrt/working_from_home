@@ -1,0 +1,156 @@
+Handicraft workers in textile,leather and related materials|7332|833|Shoe and Leather workers and Repairers
+Handicraft workers in textile,leather and related materials|7332|835|Tailors, Dressmakers, and Sew-ers
+Graphic artists|7341|825|Prepress Technicians and work-ers
+Photographers|7342|291|Photographers
+Technical illustrators|7350|154|Drafters
+Butchers, fishmongers and re-lated food preparers|7411|781|Butchers and Other Meat, Poul-try, and Fish Processing work-ers
+Bakers and confectionery mak-ers|7412|780|Bakers
+Food and beverage tasters andgraders|7413|604|Graders and Sorters, Agricul-tural Products
+Other craft and related tradesworkers in manufacture of foodproducts|7419|784|Food Batchmakers
+Cabinet-makers|7421|850|Cabinetmakers and Bench Car-penters
+Boat builders|7422|852|Model Makers and Patternmak-ers, Wood
+Basketry weavers, brush mak-ers and related workers|7423|775|Misc. Assemblers and Fabrica-tors
+Basketry weavers, brush mak-ers and related workers|7423|896|Production workers, All Other
+Weavers, knitters and relatedworkers|7431|835|Tailors, Dressmakers, and Sew-ers
+Tailors, dressmakers and hat-ters|7432|835|Tailors, Dressmakers, and Sew-ers
+Furriers and related workers|7433|263|Designers
+Textile, leather and relatedpattern-makers and cutters|7434|844|Fabric and Apparel Pattern-makers
+Textile, leather and relatedpattern-makers and cutters|7434|871|Cutting workers
+Wig makers|7435|844|Fabric and Apparel Pattern-makers
+Upholsterers and related work-ers|7436|845|Upholsterers
+Pelt dressers, tanners and fell-mongers|7441|833|Shoe and Leather workers and Repairers
+Shoe-makers|7442|833|Shoe and Leather workers and Repairers 
+Taxidermists|7443|161|Biological Scientists
+Laboratory assistants|7450|192|Chemical Technicians
+Mining-plant operators|8111|680|Derrick, Rotary Drill, and Ser-vice Unit Operators, Oil, Gas,and Mining
+Mining-plant operators|8111|684|Mining Machine Operators
+Mineral-ore-andstone-processing-plant operators|8112|682|Earth Drillers, Except Oil and Gas
+Mineral-ore-andstone-processing-plant operators|8112|694|Other Extraction workers
+Mineral-ore-andstone-processing-plant operators|8112|865|Crushing, Grinding, Polishing,Mixing, and Blending workers
+Oil- and gas-processing-plantoperators|8113|680|Derrick, Rotary Drill, and Ser-vice Unit Operators, Oil, Gas,and Mining
+Oil- and gas-processing-plantoperators|8113|692|Roustabouts, Oil and Gas
+Oil- and gas-processing-plantoperators|8113|965|Pumping Station Operators
+Well service operators|8114|680|Derrick, Rotary Drill, and Ser-vice Unit Operators, Oil, Gas,and Mining
+Ore and metal furnace opera-tors|8121|873|Furnace, Kiln, Oven, Drier, and Kettle Operators and Tenders
+Metal moulders|8122|794|Rolling Machine Setters, Oper-ators, and Tenders, Metal and Plastic
+Metal moulders|8122|804|Metal Furnace and Kiln Opera-tors and Tenders
+Metal moulders|8122|810|Molders and Molding Machine Setters, Operators, and Ten-ders, Metal and Plastic
+Ceramics moulders and decora-tors|8131|843|Extruding and Forming Ma-chine Setters, Operators, and Tenders, Synthetic and Glass Fibers
+Ceramics moulders and decora-tors|8131|892|Molders, Shapers, and Casters,Except Metal and Plastic
+Glass production plant opera-tors|8132|843|Extruding and Forming Ma-chine Setters, Operators, and Tenders, Synthetic and Glass Fibers 
+Glass production plant opera-tors|8132|892|Molders, Shapers, and Casters,Except Metal and Plastic
+Glass, ceramics and relatedplant operators n.e.c.|8139|843|Extruding and Forming Ma-chine Setters, Operators, and Tenders, Synthetic and Glass Fibers
+Glass, ceramics and relatedplant operators n.e.c.|8139|872|Extruding, Forming, Pressing,and Compacting Machine Set-ters, Operators, and Tenders
+Wood-processing-plantopera-tors|8141|853|Sawing Machine Setters, Oper-ators, and Tenders, Wood
+Wood-processing-plantopera-tors|8141|854|Woodworking Machine Setters,Operators, and Tenders, Except Sawing
+Paper-pulp and papermaking-plant operators|8142|886|Cleaning, Washing, and Metal Pickling Equipment Operatorsand Tenders
+Paper-pulp and papermaking-plant operators|8142|893|Paper Goods Machine Setters,Operators, and Tenders
+Particle- and fibreboard-plantoperators|8143|893|Paper Goods Machine Setters,Operators, and Tenders
+Petroleum- and natural-gas-refining-plant operators|8151|863|Misc. Plant and System Opera-tors
+Petroleum- and natural-gas-refining-plant operators|8151|965|Pumping Station Operators
+Chemical-processing-plant op-erators n.e.c.|8159|863|Misc. Plant and System Opera-tors
+Power-production plant opera-tors|8161|860|Power Plant Operators, Distrib-utors, and Dispatchers
+Power-production plant opera-tors|8161|861|Stationary engineers and Boiler Operators
+Combustion-, refrigeration- andwatercleaning plant operators|8162|862|Water and Liquid Waste Treat-ment Plant and System Opera-tors
+Metal-products machine opera-tors|8211|792|Extruding and Drawing Ma-chine Setters, Operators, and Tenders, Metal and Plastic
+Metal-products machine opera-tors|8211|793|Forging Machine Setters, Oper-ators, and Tenders, Metal and Plastic 
+Metal-products machine opera-tors|8211|794|Rolling Machine Setters, Oper-ators, and Tenders, Metal and Plastic
+Metal-products machine opera-tors|8211|795|Cutting, Punching, and Press Machine Setters,Operators, and Tenders, Metal and Plastic
+Metal-products machine opera-tors|8211|796|Drilling and Boring Machine Tool Setters, Operators, and Tenders, Metal and Plastic
+Metal-products machine opera-tors|8211|800|Grinding, Lapping, Polishing,and Buffing Machine Tool Set-ters, Operators, and Tenders,Metal and Plastic
+Metal-products machine opera-tors|8211|801|Lathe and Turning Machine Tool Setters, Operators, and Tenders, Metal and Plastic
+Metal-products machine opera-tors|8211|802|Milling and Planing Machine Setters, Operators, and Ten-ders, Metal and Plastic
+Metal-products machine opera-tors|8211|812|Multiple Machine Tool Setters,Operators, and Tenders, Metaland Plastic
+Metal-products machine opera-tors|8211|822|Metalworkers and Plastic work-ers, All Other
+Machine-tool operators|8212|796|Drilling and Boring Machine Tool Setters, Operators, and Tenders, Metal and Plastic
+Machine-tool operators|8212|800|Grinding, Lapping, Polishing,and Buffing Machine Tool Set-ters, Operators, and Tenders,Metal and Plastic
+Machine-tool operators|8212|801|Lathe and Turning Machine Tool Setters, Operators, and Tenders, Metal and Plastic 
+Machinists|8213|803|Machinists
+Cement and other mineral prod-ucts machine operators|8214|885|Cementing and Gluing Machine Operators and Tenders
+Pharmaceutical- and toiletry-products machine operators|8221|864|Chemical Processing Machine Setters, Operators, and Tenders
+Ammunition- and explosive-products machine operators|8222|683|Explosives workers, Ordnance Handling Experts, and Blasters 
+Rubber-products machine oper-ators|8223|894|Tire Builders
+Plastic-products machine oper-ators|8224|792|Extruding and Drawing Ma-chine Setters, Operators, and Tenders, Metal and Plastic
+Plastic-products machine oper-ators|8224|793|Forging Machine Setters, Oper-ators, and Tenders, Metal and Plastic
+Plastic-products machine oper-ators|8224|794|Rolling Machine Setters, Oper-ators, and Tenders, Metal and Plastic
+Plastic-products machine oper-ators|8224|795|Cutting, Punching, and Press Machine Setters,Operators,and Tenders, Metal and Plastic
+Plastic-products machine oper-ators|8224|796|Drilling and Boring Machine Tool Setters, Operators, and Tenders, Metal and Plastic
+Plastic-products machine oper-ators|8224|800|Grinding, Lapping, Polishing,and Buffing Machine Tool Set-ters, Operators, and Tenders,Metal and Plastic
+Plastic-products machine oper-ators|8224|801|Lathe and Turning Machine Tool Setters, Operators, and Tenders, Metal and Plastic 
+Plastic-products machine oper-ators|8224|802|Milling and Planing Machine Setters, Operators, and Ten-ders, Metal and Plastic
+Plastic-products machine oper-ators|8224|812|Multiple Machine Tool Setters,Operators, and Tenders, Metaland Plastic
+Plastic-products machine oper-ators|8224|822|Metalworkers and Plastic work-ers, All Other
+Paint and varnishes-productsmachine operators|8225|864|Chemical Processing Machine Setters, Operators, and Tenders
+Chemical-products machine op-erators n.e.c.|8229|863|Misc. Plant and System Opera-tors
+Graphic printing-machine oper-ators|8251|824|Job Printers
+Graphic printing-machine oper-ators|8251|826|Printing Machine Operators
+Bookbinding-machine operators|8252|823|Bookbinders and Bindery work-ers 
+Paper-products machine opera-tors|8253|893|Paper Goods Machine Setters,Operators, and Tenders
+Photo laboratory assistants|8254|883|Photographic Process workersand Processing Machine Opera-tors
+Fibre-preparing-, spinning- andwinding machine operators|8261|840|Textile Cutting Machine Set-ters, Operators, and Tenders
+Fibre-preparing-, spinning- andwinding machine operators|8261|842|Textile Winding, Twisting, and Drawing Out Machine Setters,Operators, and Tenders
+Weaving- and knitting-machineoperators|8262|841|Textile Knitting and Weaving Machine Setters,Operators,and Tenders
+Sewing-machine operators|8263|832|Sewing-machine operators
+Fishing tackles-machine opera-tors|8264|841|Textile Knitting and Weaving Machine Setters,Operators,and Tenders
+Textile cutters|8265|871|Cutting workers
+Bleaching-,dyeing-andcleaning-machine operators|8266|830|Laundryand Dry-Cleaningworkers
+Bleaching-,dyeing-andcleaning-machine operators|8266|836|Textile Bleaching and Dyeing Machine Operators and Tenders
+Shoemaking- and related ma-chine operators|8267|834|Shoe Machine Operators and Tenders
+Textile-,fur-andleather-productsmachineoperatorsn.e.c.|8269|831|Pressers, Textile, Garment, and Related Materials
+Textile-,fur-andleather-productsmachineoperatorsn.e.c.|8269|846|Textile, Apparel, and Furnish-ings workers, All Other
+Fish-processing-machine opera-tors|8271|781|Butchers and Other Meat, Poul-try, and Fish Processing work-ers
+Fish-processing-machine opera-tors|8271|785|Food Cooking Machine Opera-tors and Tenders
+Meat-processing-machine oper-ators|8272|781|Butchers and Other Meat, Poul-try, and Fish Processing work-ers
+Meat-processing-machine oper-ators|8272|785|Food Cooking Machine Opera-tors and Tenders
+Dairy-products machine opera-tors|8273|864|Chemical Processing Machine Setters, Operators, and Tenders 
+Grain-andspice-milling-machine operators|8274|963|Machine Feeders and Offbear-ers
+Baked-goods,cerealandchocolate-productsmachineoperators|8275|783|Food and Tobacco Roasting,Baking, and Drying Machine Operators and Tenders
+Baked-goods,cerealandchocolate-productsmachineoperators|8275|784|Food Batchmakers
+Fruit-,vegetable-andnutprocessing-machine operators|8276|784|Food Batchmakers
+Brewers-, and other beveragemachine operators|8277|864|Chemical Processing Machine Setters, Operators, and Tenders
+Food- and related products ma-chine operators n.e.c.|8279|783|Food and Tobacco Roasting,Baking, and Drying Machine Operators and Tenders
+Mechanical-machinery assem-blers|8281|726|Misc. Vehicle and Mobile Equip-ment Mechanics, Installers, and Repairers
+Mechanical-machinery assem-blers|8281|772|Electrical,Electronics,and Electromechanical Assemblers
+Mechanical-machinery assem-blers|8281|773|Engine and Other Machine As-semblers
+Electronic-equipmentassem-blers|8282|772|Electrical,Electronics,and Electromechanical Assemblers
+Electronic-equipmentassem-blers|8282|775|Misc. Assemblers and Fabrica-tors
+Locomotive-engine drivers andlocomotive-inspectors|8311|920|Locomotive engineers and Oper-ators
+Railway brakers, signallers andshunters|8312|923|Railroad Brake, Signal, and 
+Car, taxi and van drivers|8321|914|Taxi Drivers and Chauffeurs
+Car, taxi and van drivers|8321|915|Motor Vehicle Operators, All Other
+Bus- and tram drivers|8322|912|Bus Drivers
+Bus- and tram drivers|8322|926|Subway, Streetcar, and Other Rail Transportation workers
+Heavy truck and lorry drivers|8323|913|Driver/Sales workers and Truck Drivers
+Heavy truck and lorry drivers|8323|960|Industrial Truck and Tractor Operators
+Earth-moving and related plantoperators|8331|630|Paving, Surfacing, and Tamping Equipment Operators 
+Earth-moving and related plantoperators|8331|631|Pile-Driver Operators
+Earth-moving and related plantoperators|8331|952|Dredge, Excavating, and Load-ing Machine Operators
+Crane, hoist and related plantoperators|8332|934|Bridge and Lock Tenders
+Crane, hoist and related plantoperators|8332|951|Crane and Tower Operators
+Lifting-truck operators|8333|956|Hoist and Winch Operators
+Ships’ deck crews|8341|930|Sailors and Marine Oilers
+Ships’ deck crews|8341|931|Ship and Boat Captains and Op-erators
+Ships’ machine crews|8342|735|Maintenance workers, Machin-ery
+Odd jobs for private persons andhouseholds|9120|452|Misc.Personal Appearanceworkers
+Domestic helpers and cleaners|9131|423|Maidsand Housekeeping Cleaners
+Helpers and cleaners in officesand other establishments|9132|423|Maidsand Housekeeping Cleaners
+Kitchen helps and related work-ers|9133|413|Dining Room and Cafeteria Attendantsand Bartender Helpers
+Kitchen helps and related work-ers|9133|414|Dishwashers
+Window cleaners|9141|422|Janitors and Building Cleaners
+Car and related cleaners|9142|961|Cleaners of Vehicles and Equip-ment
+Messengers, package and lug-gage porters and deliverers|9151|551|Couriers and Messengers
+Doorkeepers, watchpersons andrelated workers|9152|392|Security Guards and Gaming Surveillance Officers
+Doorkeepers, watchpersons andrelated workers|9152|442|Ushers, Lobby Attendants, and Ticket Takers
+Doorkeepers, watchpersons andrelated workers|9152|453|Baggage Porters, Bellhops, and Concierges
+Meterreadersandrelatedworkers|9153|384|Parking Enforcement workers
+Meterreadersandrelatedworkers|9153|751|Coin, Vending, and Amusement Machine Servicers and Repair-ers
+Garbage collectors and relatedlabourers|9160|672|Hazardous Materials Removalworkers 
+Garbage collectors and relatedlabourers|9160|972|Refuse and Recyclable Material Collectors
+Agricultural, fishery and re-lated labourers|9210|605|Misc. Agricultural workers
+Agricultural, fishery and re-lated labourers|9210|610|Fishers and Related Fishingworkers
+Labourers in construction andmaintenance, etc.|9310|626|Construction Laborers
+Labourers in construction andmaintenance, etc.|9310|673|Highway Maintenance workers
+Labourers in construction andmaintenance, etc.|9310|674|Rail-Track Laying and Mainte-nance Equipment Operators
+Labourers in manufacturing|9320|895|Helpers–Production workers
+Labourers in manufacturing|9320|964|Packers and Packagers, Hand
+Storing and goods handlinglabourers|9330|962|Laborers and Freight, Stock,and Material Movers, Hand 

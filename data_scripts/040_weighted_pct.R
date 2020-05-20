@@ -2,8 +2,7 @@ source("data_scripts/000_includes.R")
 
 load("workdata/wfh.RData")
 
-annotations <- read_parquet('master_data/mt_data.parquet') %>% 
-  mutate(wfh_dummy = as.numeric(wfh_dummy))
+annotations <- read_parquet('master_data/mt_data_avg.parquet')
 
 wfh %>% 
   group_by(yrkeskode) %>% 
@@ -14,8 +13,7 @@ nonminor_iscos <- intersect(nonminor_ads_iscos$yrkeskode, annotations$ISCO)
 
 annotations %>%
   mutate(ISCO1 = substr(ISCO,1 ,1)) %>%
-  filter(ISCO %in% nonminor_iscos) %>%
-  select(-wfh) -> nonminor_annotations
+  filter(ISCO %in% nonminor_iscos) -> nonminor_annotations
 
 
 wfh %>%
@@ -26,7 +24,7 @@ wfh %>%
   inner_join(nonminor_annotations, by="ISCO1") %>%
   group_by(ISCO1) %>%
   summarize(n_ads = sum(antall_stillinger),
-            n_wfh_annotations = sum(wfh_dummy*antall_stillinger),
+            n_wfh_annotations = sum(wfh_prob*antall_stillinger),
             n_wfh_ads = sum(wfh*antall_stillinger) ) -> wfh_isco1_weighted
 
 
