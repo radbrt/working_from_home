@@ -86,10 +86,6 @@
 
 \usepackage{hyperref}
 \usepackage{}
-\usepackage{amsmath}
-\usepackage{booktabs}
-\usepackage{caption}
-\usepackage{longtable}
 
 % move the hyperref stuff down here, after header-includes, to allow for - \usepackage{hyperref}
 
@@ -248,7 +244,7 @@ characteristics of workers with such jobs. With help of the employment
 register, this can be done not only on national level but also on
 smaller geographical areas: for example, on municipalities.
 
-We find that approximately 36 \% of Norwegian jobs can be performed at
+We find that approximately 39 \% of Norwegian jobs can be performed at
 home. As we expected, remote friendly jobs are often paid better than
 non-remote friendly jobs. There are large geographical differences in
 the prevalence of remote friendly jobs. There are larger share of remote
@@ -291,7 +287,7 @@ while our analysis provides much more detailed information.
 \subsection{The International Standard
 Classification}\label{the-international-standard-classification}}
 
-of Occupations organizes jobs into a set of groups according to the
+The ISCO standard organizes jobs into a set of groups according to the
 tasks and duties undertaken in the job. Using the detailed task
 descriptions listed in the ISCO-08 documentation, we try to provide a
 assertion of whether an occupation is likely able to be performed from
@@ -409,14 +405,14 @@ with labor statistics published per occupation, we find that 875 344
 wage employers, 36 per cent of the workforce, are likely able to work
 from home.
 
-From the Mechanical Turk annotations we see that 28 per cent of the
+From the Mechanical Turk annotations we see that 34 per cent of the
 occupations can likely be performed from home. Taken together with the
-labor statistics per occupation, we find that 875 344 jobs, 36 per cent
+labor statistics per occupation, we find that 942 942 jobs, 39 per cent
 of the workforce, are likely able to work from home.
 
-From the Mechanical Turk annotations, around 28 per cent of the
+From the Mechanical Turk annotations, around 34 per cent of the
 occupations can likely be performed from home. Taken together with the
-labor statistics per occupation, we find that 875 344 wage employees, 36
+labor statistics per occupation, we find that 942 942 wage employees, 39
 per cent of the workforce, are likely able to work from home.
 
 Splitting the annotated data into occupational groups, we estimate what
@@ -428,24 +424,26 @@ managers are both groups where more than half of the employees can be
 done remotely, but an even higher share of clerical support workers are
 likely able to do their jobs from home.
 
-\captionsetup[table]{labelformat=empty,skip=1pt}
-\begin{longtable}{lrrr}
-\toprule
-& \multicolumn{2}{c}{Number of jobs} & \\ 
- \cmidrule(lr){2-3}
-Occupational Group & Total & Remote-friendly & Percent remote friendly \\ 
-\midrule
-Managers & $183 412$ & $94 959$ & $51,8\%$ \\ 
-Academics & $576 136$ & $297 256$ & $51,6\%$ \\ 
-Technicians and associate professionals & $373 065$ & $158 504$ & $42,5\%$ \\ 
-clerical support workers & $169 230$ & $112 842$ & $66,7\%$ \\ 
-Service and sales workers & $570 761$ & $165 493$ & $29,0\%$ \\ 
-Skilled agricultural, forestry and fishery workers & $21 631$ & $0$ & $0,0\%$ \\ 
-Craft and related trades workers & $219 658$ & $46 290$ & $21,1\%$ \\ 
-Plant and machine operators and assemblers & $163 197$ & $0$ & $0,0\%$ \\ 
-Elementary Occupations & $134 400$ & $0$ & $0,0\%$ \\ 
-\bottomrule
-\end{longtable}
+\begin{verbatim}
+## \captionsetup[table]{labelformat=empty,skip=1pt}
+## \begin{longtable}{lrrr}
+## \toprule
+## & \multicolumn{2}{c}{Number of jobs} & \\ 
+##  \cmidrule(lr){2-3}
+## Occupational Group & Total & Remote-friendly & Percent remote friendly \\ 
+## \midrule
+## Managers & $182 399$ & $114 009$ & $62,5\%$ \\ 
+## Academics & $576 136$ & $320 200$ & $55,6\%$ \\ 
+## Technicians and associate professionals & $373 065$ & $148 698$ & $39,9\%$ \\ 
+## clerical support workers & $169 230$ & $112 085$ & $66,2\%$ \\ 
+## Service and sales workers & $570 761$ & $195 653$ & $34,3\%$ \\ 
+## Skilled agricultural, forestry and fishery workers & $21 631$ & $3 188$ & $14,7\%$ \\ 
+## Craft and related trades workers & $219 658$ & $35 947$ & $16,4\%$ \\ 
+## Plant and machine operators and assemblers & $163 197$ & $10 906$ & $6,7\%$ \\ 
+## Elementary Occupations & $134 400$ & $2 256$ & $1,7\%$ \\ 
+## \bottomrule
+## \end{longtable}
+\end{verbatim}
 
 In general, occupations that can be performed remotely also pay better,
 as shown in table tab:Earning {[}TODO{]}. The same pattern is also found
@@ -456,15 +454,23 @@ for non-remote workers is slightly higher. And the distribution of wages
 have a much larger spread as well. The wage differential among remote
 and non-remote Craft and related trades workers is much larger.
 
-\captionsetup[table]{labelformat=empty,skip=1pt}
-\begin{longtable}{lrr}
-\toprule
-Remote & Average earnings & Median earnings \\ 
-\midrule
-No & $43 274$ & $40 000$ \\ 
-Yes & $48 929$ & $47 584$ \\ 
-\bottomrule
-\end{longtable}
+\begin{verbatim}
+## \captionsetup[table]{labelformat=empty,skip=1pt}
+## \begin{longtable}{lrrrr}
+## \toprule
+## Remote probability & \# of ocupations & \# of jobs & Average earnings & Median earnings \\ 
+## \midrule
+## High (>0.8) & $43$ & $344 530$ & $54 135$ & $47 730$ \\ 
+## Medium (0.2 - 0.8) & $114$ & $899 818$ & $44 936$ & $42 096$ \\ 
+## Low (<0.2) & $199$ & $1 407 535$ & $43 207$ & $40 362$ \\ 
+## \bottomrule
+## \end{longtable}
+\end{verbatim}
+
+We simplify the remote probability further for the moment by converting
+it to a binary classification, simply rounding the probability to an
+integer (0 or 1). This allows us to present a more comprehensible view
+of the wage differences between remote- and non-remote jobs.
 
 \includegraphics{figs/unnamed-chunk-2.pdf}
 
@@ -485,34 +491,39 @@ on the map.
 
 \includegraphics{figs/annotations_syss_map.pdf}
 
-\captionsetup[table]{labelformat=empty,skip=1pt}
-\begin{longtable}{lrrr}
-\toprule
-& \multicolumn{2}{c}{Number of jobs} & \\ 
- \cmidrule(lr){2-3}
-Municipality & Total & Remote-friendly & Percent remote friendly \\ 
-\midrule
-Oppegård & $12 964$ & $5 636$ & $43,5\%$ \\ 
-Bærum & $60 596$ & $25 977$ & $42,9\%$ \\ 
-Asker & $28 960$ & $12 294$ & $42,5\%$ \\ 
-Oslo & $344 149$ & $144 657$ & $42,0\%$ \\ 
-Nesodden & $9 027$ & $3 733$ & $41,4\%$ \\ 
-\bottomrule
-\end{longtable}
-\captionsetup[table]{labelformat=empty,skip=1pt}
-\begin{longtable}{lrrr}
-\toprule
-& \multicolumn{2}{c}{Number of jobs} & \\ 
- \cmidrule(lr){2-3}
-Municipality & Total & Remote-friendly & Percent remote friendly \\ 
-\midrule
-Torsken & $373$ & $84$ & $22,5\%$ \\ 
-Båtsfjord & $1 023$ & $244$ & $23,8\%$ \\ 
-Frøya & $2 494$ & $613$ & $24,6\%$ \\ 
-Stranda & $2 318$ & $578$ & $25,0\%$ \\ 
-Roan & $426$ & $107$ & $25,1\%$ \\ 
-\bottomrule
-\end{longtable}
+\begin{verbatim}
+## \captionsetup[table]{labelformat=empty,skip=1pt}
+## \begin{longtable}{lrrr}
+## \toprule
+## & \multicolumn{2}{c}{Number of jobs} & \\ 
+##  \cmidrule(lr){2-3}
+## Municipality & Total & Remote-friendly & Percent remote friendly \\ 
+## \midrule
+## Oppegård & $12 964$ & $6 040$ & $46,6\%$ \\ 
+## Bærum & $60 596$ & $27 972$ & $46,2\%$ \\ 
+## Asker & $28 960$ & $13 232$ & $45,7\%$ \\ 
+## Oslo & $344 149$ & $155 082$ & $45,1\%$ \\ 
+## Nesodden & $9 027$ & $4 026$ & $44,6\%$ \\ 
+## \bottomrule
+## \end{longtable}
+\end{verbatim}
+
+\begin{verbatim}
+## \captionsetup[table]{labelformat=empty,skip=1pt}
+## \begin{longtable}{lrrr}
+## \toprule
+## & \multicolumn{2}{c}{Number of jobs} & \\ 
+##  \cmidrule(lr){2-3}
+## Municipality & Total & Remote-friendly & Percent remote friendly \\ 
+## \midrule
+## Båtsfjord & $1 023$ & $285$ & $27,8\%$ \\ 
+## Torsken & $373$ & $104$ & $27,9\%$ \\ 
+## Frøya & $2 494$ & $721$ & $28,9\%$ \\ 
+## Stranda & $2 318$ & $672$ & $29,0\%$ \\ 
+## Sørfold & $842$ & $249$ & $29,5\%$ \\ 
+## \bottomrule
+## \end{longtable}
+\end{verbatim}
 
 Table tab:5 most {[}TODO{]} and table tab:5 least{[}TODO{]} list the top
 and bottom 5 municipalities in terms of remote friendly jobs in Norway.
@@ -532,6 +543,61 @@ the availability of remote-friendly jobs. Denser locations imply greater
 risks of Covid-19 spread, but this increased risk may be mitigated by
 better opportunities for remote work.
 
+\hypertarget{european-results}{%
+\section{European results}\label{european-results}}
+
+Employment by first-level ISCO codes are published by the european
+statistical agency Eurostat, and with a few assumptions these data can
+be used to estimate remote possibilities in the EU.
+
+Due to the lack of 4-digit ISCO codes from Eurostat, we use the
+aggregates from Norwegian data as an estimate for remote percentages for
+1-digit groups.
+
+The countries with the highest share of remote-eligible jobs are rich
+countries, with Switzerland and Luxembourg topping the list.
+
+\begin{verbatim}
+## \captionsetup[table]{labelformat=empty,skip=1pt}
+## \begin{longtable}{lrrr}
+## \toprule
+## & \multicolumn{2}{c}{Number of jobs (thousand)} & \\ 
+##  \cmidrule(lr){2-3}
+## Country & Total & Remote-friendly & Percent \\ 
+## \midrule
+## Switzerland & $4 477$ & $1 874$ & $41.86\%$ \\ 
+## Luxembourg & $267$ & $111$ & $41.50\%$ \\ 
+## United Kingdom & $30 943$ & $12 667$ & $40.94\%$ \\ 
+## Norway & $2 565$ & $1 038$ & $40.49\%$ \\ 
+## Sweden & $4 888$ & $1 962$ & $40.13\%$ \\ 
+## Netherlands & $8 402$ & $3 327$ & $39.60\%$ \\ 
+## \bottomrule
+## \end{longtable}
+\end{verbatim}
+
+On the other side, the countries with the lowest share of
+remote-eligible jobs are mostly poorer countries in southeast europe.
+
+\begin{verbatim}
+## \captionsetup[table]{labelformat=empty,skip=1pt}
+## \begin{longtable}{lrrr}
+## \toprule
+## & \multicolumn{2}{c}{Number of jobs (thousand)} & \\ 
+##  \cmidrule(lr){2-3}
+## Country & Total & Remote-friendly & Percent \\ 
+## \midrule
+## Romania & $8 312$ & $2 265$ & $27.25\%$ \\ 
+## Turkey & $27 882$ & $7 848$ & $28.15\%$ \\ 
+## North Macedonia & $742$ & $213$ & $28.71\%$ \\ 
+## Serbia & $2 671$ & $817$ & $30.58\%$ \\ 
+## Hungary & $4 398$ & $1 384$ & $31.48\%$ \\ 
+## Bulgaria & $3 046$ & $963$ & $31.63\%$ \\ 
+## \bottomrule
+## \end{longtable}
+\end{verbatim}
+
+\includegraphics{figs/unnamed-chunk-6.pdf}
+
 \hypertarget{validating-results-against-job-ads}{%
 \section{Validating results against
 job-ads}\label{validating-results-against-job-ads}}
@@ -546,24 +612,26 @@ within each broader group (table tab:relative{[}TODO{]}). We also
 compute the composition of remote-friendly jobs across the occupational
 groups, giving us a measure that is directly comparable.
 
-\captionsetup[table]{labelformat=empty,skip=1pt}
-\begin{longtable}{lrrr}
-\toprule
-& \multicolumn{2}{c}{Relative remote frequency} & \\ 
- \cmidrule(lr){2-3}
-Occupational group & Annotations & Job ads & Difference \\ 
-\midrule
-Managers & $4,9\%$ & $4,3\%$ & $0,5\%$ \\ 
-Academics & $65,1\%$ & $49,7\%$ & $15,4\%$ \\ 
-Assc. professionals & $14,9\%$ & $32,4\%$ & $-17,5\%$ \\ 
-Clerics & $5,3\%$ & $5,5\%$ & $-0,2\%$ \\ 
-Service workers & $4,6\%$ & $7,0\%$ & $-2,4\%$ \\ 
-Agricultural workers & $0,0\%$ & $0,0\%$ & $0,0\%$ \\ 
-Craft workers & $5,2\%$ & $0,9\%$ & $4,3\%$ \\ 
-NA & $0,0\%$ & $0,1\%$ & $-0,1\%$ \\ 
-NA & $0,0\%$ & $0,0\%$ & $0,0\%$ \\ 
-\bottomrule
-\end{longtable}
+\begin{verbatim}
+## \captionsetup[table]{labelformat=empty,skip=1pt}
+## \begin{longtable}{lrrr}
+## \toprule
+## & \multicolumn{2}{c}{Relative remote frequency} & \\ 
+##  \cmidrule(lr){2-3}
+## Occupational group & Annotations & Job ads & Difference \\ 
+## \midrule
+## Managers & $4,3\%$ & $4,2\%$ & $0,1\%$ \\ 
+## Academics & $61,0\%$ & $49,8\%$ & $11,3\%$ \\ 
+## Assc. professionals & $15,6\%$ & $32,5\%$ & $-16,8\%$ \\ 
+## Clerics & $4,3\%$ & $5,5\%$ & $-1,2\%$ \\ 
+## Service workers & $7,5\%$ & $7,0\%$ & $0,5\%$ \\ 
+## Agricultural workers & $0,1\%$ & $0,0\%$ & $0,1\%$ \\ 
+## Craft workers & $6,4\%$ & $0,9\%$ & $5,5\%$ \\ 
+## NA & $0,5\%$ & $0,1\%$ & $0,4\%$ \\ 
+## NA & $0,3\%$ & $0,0\%$ & $0,3\%$ \\ 
+## \bottomrule
+## \end{longtable}
+\end{verbatim}
 
 The notable discrepancies for the groups \texttt{Academics} and
 \texttt{Technicians\ and\ associate\ professionals} have a curious
@@ -645,113 +713,6 @@ working conditions. The possibilities are not limited to the question of
 working from home. Job ads are a great resource for describing actual
 jobs and what they entail, although the picture the advertisements paint
 might be a little rosy.
-
-\hypertarget{appendix}{%
-\section{Appendix}\label{appendix}}
-
-\hypertarget{notations}{%
-\subsection{Notations}\label{notations}}
-
-Jobs are indexed using \(i\). Each job belong to one occupation (indexed
-by \(j\)) which can be aggregated again to the ISCO group ( indexed by
-\(g\)). The set of jobs for occupation \(j\) is denoted as \(B(j)\) and
-the set of occupations for ISCO group \(g\) is denoted as \(D(g)\).
-
-\hypertarget{the-job-ads-data}{%
-\subsection{The job ads data}\label{the-job-ads-data}}
-
-Job ads data contains all new jobs announced through NAV.
-
-Let \(Y_{i}\) be the variable indicating whether the job announcement
-for job \(i\) contains the phrase ``working from home'', i.e: \[
-Y_{i}=\begin{cases}
-1 & \text{contains "hjemmearbeid"}\\
-0 & \text{otherwise}
-\end{cases}.
-\]
-
-Whether to list the phrase \texttt{working\ from\ home} in the
-announcement for job \(i\) depends on the feasibility that the job can
-be performed remotely. However, it depends also other factors, such as
-whether the employee consider the feature ``working from home'' is
-important for them to draw high quality potential candidates. That is,
-for a job \(i\) of occupation \(j\), we can write
-
-\[P(Y_{i} \& =1)=q_{a}(i)q_{f}(i)=p_{a}(j)p_{f}(j)\epsilon(i)\] where
-\(p_{a}(i)\) is measures the mean probability that employee consider the
-working from home feature is important for job \(i\), \(p_{f}(i)\) is
-the probability that job \(i\) is a ``working from home'' job,
-\(E_{i\in B(j)}(q_{a}(i))=p_{a}(j)\) ,
-\(E_{i\in B(j)}(q_{f}(i))=p_{f}(j)\) and
-\(E_{i\in B(j)}(\varepsilon(i))=1\). Using observed data, we have from
-(eq:prob\_job{[}TODO{]}) \[
-\bar{Y}_{j}=\frac{\sum_{i\in B(j)}Y_{i}}{n_{g}(j)}=p_{a}(j)p_{f}(j)\frac{\sum_{i\in B(j)}\varepsilon(i)}{n_{g}(j)}\longrightarrow p_{a}(j)p_{f}(j).
-\] Assume that \(p_{a}(j)\) is a fixed number within the same ISCO
-group, then we see immediately that
-
-\[ \frac{\bar{Y}_{j}}{\bar{Y}_{k}}\longrightarrow\frac{p_{f}(j)}{p_{f}(k)}.\label{eq:risk_ratio_occupation} \]
-
-That is, the risk ratio between two occupations within the same group
-can be consistently estimated. If we are willing to assume in addition
-that \(p_{a}(j)\) is the same for all occupations, we have \[
-\bar{Y}_{g}=\sum_{j\in D(g)}S_{g}(j)\bar{Y_{j}}\longrightarrow p_{a}p_{f}(g).
-\] where \(p_{f}(g)=\sum_{j\in D(g)}S_{g}(j)p_{f}(j)\) is the
-feasibility measure for ISCO group \(g\) and \(S_{g}(j)\) is the share
-of jobs of occupation \(j\) in ISCO group \(g\). Similar to
-(eq:risk\_ratio\_occupation{[}TODO{]}), we have
-
-\[ \frac{\bar{Y}_{g}}{\bar{Y}_{l}}\rightarrow\frac{p_{f}(g)}{p_{f}(l)}.\label{eq:risk_ratio_isco} \]
-
-\hypertarget{the-occupation-annotation-data}{%
-\subsection{The occupation annotation
-data}\label{the-occupation-annotation-data}}
-
-This data set contains information of working from home feasibility
-information based on the description of the tasks for each occupation.
-For occupation \(j\) it contains a dummy variable \(A_{j}\) which
-indicates whether this occupation is working from home friendly, and a
-variable (\(\tau_{j}\)) which indicates how certain \(A_{j}\) is.
-
-\hypertarget{logit-regression-consistency-between-two-data-sources}{%
-\subsection{Logit regression: consistency between two data
-sources}\label{logit-regression-consistency-between-two-data-sources}}
-
-\$\$latex In order to evaluate it statistically we would benefit from
-more detailed data. One approach is to use a logistic regression
-explaining the annotation of an occupation (a binary label) with the
-ratio of mentions of\textquotedblleft hjemmekontor\textquotedblright\{\}
-in the ad. Since mentions are quite rare in the ads, we computed
-\textquotedblright mentions pr 1000 ads\textquotedblright\{\} as a more
-intuitive measure. \$
-
-\$\$latex
-
-\begin{table}[t!]
-\setlength\arrayrulewidth{0.75pt}
-\centering
-\caption{Percentage of occupations are remote-friendly across occupational group}
-\begin{tabular}{lrrrr}
-\toprule
-term & estimate & std.error & statistic & p.value \\ 
-\midrule
-Intercept & -1.02 & 0.13 & -8 & 0.0000 \\ 
-Mentions pr 1000 & 0.08 & 0.02 & 4 & 0.0001 \\ 
-\bottomrule
-\end{tabular}
-\label{tab:logit}
-\end{table}
-
-\$
-
-Mentioning ``hjemmekontor'' in the add is significantly correlated with
-the ad being labeled annotation. It remains significant when including
-occupational group (dummy), and number of ads for the occupation as
-further explanatory variables. As for the goodness of fit, the model
-including occupational groups and number of ads achieve an accuracy of
-\(75\%\), which is only modestly above the baseline at \(68\%\). Given
-the spuriousness of the data sources, we consider a clearly significant
-correlation between mentions of ``hjemmekontor'' and the ISCO
-annotations a good result.
 
 \newpage
 \singlespacing 

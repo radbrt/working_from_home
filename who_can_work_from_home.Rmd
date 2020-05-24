@@ -251,8 +251,7 @@ annotated_lonn %>%
   labs(y="Total earnings", x="Remote") +
   theme(legend.position = "none") +
   facet_grid(~ isco1_text) +
-  ggtitle("Earnings for remote and non-remote feasible jobs different ISCO groups") +
-  ggsave('earnings_boxplot.png', width = 9)
+  ggtitle("Earnings for remote and non-remote feasible jobs different ISCO groups") 
 
 ```
 
@@ -273,8 +272,7 @@ wfh_map %>%
   theme_bw() +
   scale_fill_gradient(low = "#ededed", high = "#0305ff", na.value = "#999999") +
   scale_color_gradient(low = "#ededed", high = "#0305ff", na.value = "#999999") +
-  ggtitle("Percentage of workers can work from home, Norway") +
-  ggsave('geo.png')
+  ggtitle("Percentage of workers can work from home, Norway") 
   
 ```
 
@@ -342,8 +340,7 @@ areas_isco %>%
   scale_x_log10() +
   scale_y_log10() +
   labs(x="Population pr square km", y="Percent of workers with remote-friendly jobs") +
-  ggtitle("Shares of Remote feasible jobs and population density") +
-  ggsave('urbanness.png')
+  ggtitle("Shares of Remote feasible jobs and population density") 
 
 ```
 
@@ -477,8 +474,7 @@ eu_wfh_map %>%
   theme_bw() +
   labs(fill="Remote percent") +
   scale_fill_gradient(low = "#ededed", high = "#0105ff", na.value = "#999999") +
-  ggtitle("Percentage of workers can work from home, Europe") +
-  ggsave('eu_map.png')
+  ggtitle("Percentage of workers can work from home, Europe") 
 
 
 ```
@@ -528,37 +524,6 @@ In Norway, as mentioned in section sec:introduction[TODO], there are two surveys
 The sudden question of remote work highlights the need to expand our knowledge of occupations and their contents. In this paper we study the remote feasibility for different occupations in Norway. This analysis sheds more lights on a fundamental problem in the labor market. And more importantly it also provides useful knowledge for decision makers to evaluate potential social policies to combat the Covid-19 pandemic. Norwegian government will re-open primary schools and kindergartens soon. However, opening a school where majority of the parents can work from home would have rather different implications on potential virus spread, if compared with opening a school where majority of parents don't have this option. In addition, occupations with different remote feasibility will not be hit as hard, so these estimates would be useful when one want to assess potential economic impacts of the pandemic.    
 
 On the other hand, for National Statistical Institutions in Europe, the most natural option would be to expand the  existing ISCO ontology with this data. This analysis is an attempt to combine the conventional and unconventional sources for statisical and research purpose. The results we have found also suggest that alternative approaches to collecting such information is feasible. The ISCO-08 documentation includes more detailed descriptions of the jobs than what we made use of in this paper. The complete list includes lists of tasks commonly performed, which may further nuance what parts of a job can actually be performed from home. The ISCO ontology may also serve this purpose.Although there were some discrepancies between the job ads and the annotations, there is clearly a pattern, and the differences between such sources should be explored. From an economic perspective this may tell us something about employer preferences related to hiring, and from the perspective of a National Statistical Institution such sources may, if calibrated correctly, provide further information about the labor market and working conditions. The possibilities are not limited to the question of working from home. Job ads are a great resource for describing actual jobs and what they entail, although the picture the advertisements paint might be a little rosy. 
-
-# Appendix
-
-## Logit regression: consistency between two data sources
-
-In order to evaluate it statistically we would benefit from more detailed data. One approach is to use a logistic regression explaining the annotation of an occupation (a binary label) with the ratio of mentions of\textquotedblleft hjemmekontor\textquotedblright{} in the ad. Since mentions are quite rare in the ads, we computed \textquotedblright mentions pr 1000 ads\textquotedblright{} as a more intuitive measure.
-
-
-$$
-
-\begin{table}[t!]
-\setlength\arrayrulewidth{0.75pt}
-\centering
-\caption{Percentage of occupations are remote-friendly across occupational group}
-\begin{tabular}{lrrrr}
-\toprule
-term & estimate & std.error & statistic & p.value \\ 
-\midrule
-Intercept & -1.02 & 0.13 & -8 & 0.0000 \\ 
-Mentions pr 1000 & 0.08 & 0.02 & 4 & 0.0001 \\ 
-\bottomrule
-\end{tabular}
-\label{tab:logit}
-\end{table}
-$$
-
-
-
-Mentioning "hjemmekontor" in the add is significantly correlated with the ad being labeled annotation. It remains significant when including occupational group (dummy), and number of ads for the occupation as further explanatory variables. As for the goodness of fit, the model including occupational groups and number of ads achieve an accuracy of $75\%$, which is only modestly above the baseline at $68\%$. Given the spuriousness of the data sources, we consider a clearly significant correlation between mentions of "hjemmekontor" and the ISCO annotations a good result.
-
-
 
 
 

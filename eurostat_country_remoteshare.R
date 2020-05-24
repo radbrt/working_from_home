@@ -1,14 +1,17 @@
 library(janitor)
 library(tidyverse)
 
+estat_isco <- read_csv('~/Python/working_from_home/isco1_eurostat_employment.csv') %>% 
+  clean_names() %>% 
+  filter(substr(geo, 1, 4)!='Euro')
+
+
 wfh_isco1 <- syss_total %>% 
   group_by(ISCO1) %>% 
   summarize(total = sum(antall, na.rm=T), total_remote = sum(remote_count, na.rm=T)) %>% 
   mutate(total_remote_share = total_remote/total)
   
-estat_isco <- read_csv('~/Python/working_from_home/isco1_eurostat_employment.csv') %>% 
-  clean_names() %>% 
-  filter(substr(geo, 1, 4)!='Euro')
+
 
 isco1 <- unique(estat_isco$isco08)
 isco_vals <- as.character(1:9)
