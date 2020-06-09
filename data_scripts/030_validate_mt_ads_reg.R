@@ -2,7 +2,7 @@ source("data_scripts/000_includes.R")
 
 load("workdata/wfh.RData")
 
-annotations <- read_parquet('master_data/mt_data.parquet') %>% 
+annotations <- read_parquet('master_data/mt_data_avg.parquet') %>% 
   mutate(wfh_dummy = as.numeric(wfh_dummy))
 
 

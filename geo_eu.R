@@ -76,7 +76,7 @@ estat_isco <- read_csv('isco1_eurostat_employment.csv') %>%
 estat_isco %>% 
   group_by(geo) %>% 
   summarize(n = n()) %>% 
-  mutate(code = substr(toupper(geo), 1, 2))-> geocodes
+  mutate(code = substr(toupper(geo), 1, 2)) -> geocodes
 
 
 
@@ -105,20 +105,30 @@ special_cases <- c('United Kingdom' = 'UK',
                    'Bulgaria' = 'BG',
                    'Montenegro' = 'ME')
 
-names(special_cases)
-
-
-special_cases["Sweden"]
-
-
 estat_isco %>% 
   mutate(CCODE = substr(toupper(geo), 1, 2),
          CCODE_SPECIAL = special_cases[geo]) %>%
-  mutate(countrycode = case_when(is.na(CCODE_SPECIAL) ~ CCODE,
+  mutate(CNTR_CODE = case_when(is.na(CCODE_SPECIAL) ~ CCODE,
                                  TRUE ~ CCODE_SPECIAL)) -> estat_isco_ccode
 
+write_delim(eu_wfh_total, '~/Python/working_from_home/workdata/eu_wfh_total.csv', delim = ";")
+
+eu_wfh_total <- read_delim('workdata/eu_wfh_total.csv', delim = ";")
+
+eu_wfh_total %>% 
+  mutate(CCODE = substr(toupper(geo), 1, 2),
+         CCODE_SPECIAL = special_cases[geo]) %>%
+  mutate(CNTR_CODE = case_when(is.na(CCODE_SPECIAL) ~ CCODE,
+                               TRUE ~ CCODE_SPECIAL)) -> eu_wfh_total_ccode
 
 
+eu_wfh_map <- merge(e, eu_wfh_total_ccode, by='CNTR_CODE')
+
+eu_wfh_map %>% 
+  ggplot() + 
+  geom_sf(aes(fill = remote_share)) +
+  coord_sf(xlim = c(-40, 50), ylim = c(30, 73), expand = FALSE) + 
+  theme_bw()
                 
 
 
