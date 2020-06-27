@@ -2,8 +2,11 @@ source("data_scripts/000_includes.R")
 
 load('workdata/wfh.RData')
 
+oldmt <- read_parquet('master_data/mt_data.parquet')
+
 annotations <- read_parquet('master_data/mt_data.parquet') %>% 
-  mutate(wfh_dummy = as.numeric(wfh_dummy))
+  #mutate(wfh_dummy = wfh_prob)
+  mutate(wfh_dummy <- as.numeric(wfh_dummy))
 
 
 wfh %>% 
@@ -45,6 +48,7 @@ ads_st1_stats %>%
 save(ads_table, file = "workdata/ads_table.RData")
 
 
-
+ads_table %>% 
+  gt()
 
 

@@ -57,6 +57,7 @@ all %>%
 
 all_prob <- bind_rows(all_prob_mt, manual_annot)
 
+intersect(all_prob_mt$ISCO, manual_annot$ISCO)
 
 write_parquet(all_prob, 'master_data/mt_data_avg.parquet')
 

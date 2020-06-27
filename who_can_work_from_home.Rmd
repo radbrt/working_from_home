@@ -251,7 +251,7 @@ annotated_lonn %>%
   labs(y="Total earnings", x="Remote") +
   theme(legend.position = "none") +
   facet_grid(~ isco1_text) +
-  ggtitle("Earnings for remote and non-remote feasible jobs different ISCO groups") 
+  ggsave("boxplot_to_dp.png")
 
 ```
 
@@ -268,11 +268,13 @@ The geographic location of jobs have been a point of interest for years, amid bo
 wfh_map %>%
   ggplot() +
   geom_sf(aes(fill=remote_pct, color=remote_pct)) +
-  labs(fill="Remote percent", color="Remote percent") +
+  labs(fill="Remote\npercent", color="Remote\npercent") +
   theme_bw() +
   scale_fill_gradient(low = "#ededed", high = "#0305ff", na.value = "#999999") +
   scale_color_gradient(low = "#ededed", high = "#0305ff", na.value = "#999999") +
-  ggtitle("Percentage of workers can work from home, Norway") 
+  labs(x="Latitude", y="Longitude") +
+  theme(legend.position = c(0.9, 0.25)) +
+  ggsave("norway_map_dp.png")
   
 ```
 
@@ -340,7 +342,7 @@ areas_isco %>%
   scale_x_log10() +
   scale_y_log10() +
   labs(x="Population pr square km", y="Percent of workers with remote-friendly jobs") +
-  ggtitle("Shares of Remote feasible jobs and population density") 
+  ggsave("density_reg_to_dp.png") 
 
 ```
 
@@ -461,7 +463,8 @@ special_cases <- c('United Kingdom' = 'UK',
 
 eu_wfh_total %>% 
   mutate(CCODE = substr(toupper(geo), 1, 2),
-         CCODE_SPECIAL = special_cases[geo]) %>%
+         CCODE_SPECIAL = special_cases[geo],
+         remote_share = remote_share*100) %>%
   mutate(CNTR_CODE = case_when(is.na(CCODE_SPECIAL) ~ CCODE,
                                TRUE ~ CCODE_SPECIAL)) -> eu_wfh_total_ccode
 
@@ -472,9 +475,11 @@ eu_wfh_map %>%
   geom_sf(color="black", size=0.2) +
   coord_sf(xlim = c(-25, 48), ylim = c(33, 73), expand = FALSE) + 
   theme_bw() +
-  labs(fill="Remote percent") +
+  labs(fill="Remote\npercent") +
+  labs(x="Latitude", y="Longitude") +
   scale_fill_gradient(low = "#ededed", high = "#0105ff", na.value = "#999999") +
-  ggtitle("Percentage of workers can work from home, Europe") 
+  theme(legend.position = c(0.92, 0.5)) +
+  ggsave("eu_map_dp.png")
 
 
 ```
