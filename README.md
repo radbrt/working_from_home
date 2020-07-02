@@ -19,9 +19,3 @@ The Norwegian welfare administration publishes full job ads in a machine readabl
 Also, needless to mention, a data set of job ads can by definition not cover vacancies that were not advertised. As the purpose of this analysis is to reason about the workforce, this is an additional source of bias.
 
 Using the job text, we searched for ads mentioning being remote friendly (the norwegian term "hjemmekontor" is a precise indicator, but we also tried adding a few other common phrases). This approach is unquestionably very crude, but nonetheless informative and readily available.
-
-## Results
-
-We find that although the two ways of measuring the possibilities for working remotely are vastly different and both prone to errors, they produce generally similar results.
-
-Roughly 34% of the actual jobs in Norway can be performed from home. This is quite similar to the NBER paper, and the numbers are concentrated in the academic end of the ISCO scale.

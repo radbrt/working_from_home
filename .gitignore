@@ -1,3 +1,6 @@
+*.bib
+*.fls
+*.fdb_latexmk
 .*
 *.arrow
 *.Rproj
