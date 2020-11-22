@@ -1,13 +1,28 @@
 source("data_scripts/000_includes.R")
 
-all <- read_feather('master_data/all_answers.feather') %>% 
-  mutate(ISCO = as.character(ISCO),
-         wfh_dummy = as.numeric(wfh_dummy))
+original <- read_feather('master_data/all_answers.feather') %>% 
+  mutate(ISCO = as.character(ISCO))
 
-table(all$answer, all$wfh_dummy)
+round_two <- read_csv('./master_data/round_two_mturk_results.csv') %>% 
+  clean_names() %>% 
+  mutate(ISCO = substr(input_title, 1, 4)) %>% 
+  rename(answer = answer_category_label) %>% 
+  select(ISCO, answer)
 
-all_mt <- all %>% 
-  select(ISCO, wfh_dummy, confidence, wfh)
+
+round_three <- read_csv('./master_data/round_three_mturk_results.csv') %>% 
+  clean_names() %>% 
+  mutate(ISCO = substr(input_title, 1, 4)) %>% 
+  rename(answer = answer_category_label) %>% 
+  select(ISCO, answer)
+
+
+all <- bind_rows(original, round_two, round_three)
+
+# table(all$answer, all$wfh_dummy)
+# 
+# all_mt <- all %>% 
+#   select(ISCO, wfh_dummy, confidence, wfh)
 
 additional_answers <- "
 ISCO wfh_prob

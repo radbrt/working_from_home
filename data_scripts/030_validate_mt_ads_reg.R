@@ -3,7 +3,8 @@ source("data_scripts/000_includes.R")
 load("workdata/wfh.RData")
 
 annotations <- read_parquet('master_data/mt_data_avg.parquet') %>% 
-  mutate(wfh_dummy = as.numeric(wfh_dummy))
+  mutate(wfh_dummy = as.numeric(wfh_prob)) %>% 
+  select(-wfh_prob)
 
 
 wfh %>%
@@ -22,4 +23,4 @@ m <- glm(wfh_dummy ~ wfh_prob , data=ads_annotated18, family = "binomial" )
 
 summary(m)
 
-save(ads_annotated18, file="workdata/ads_annotated18.RData")
+#save(ads_annotated18, file="workdata/ads_annotated18.RData")

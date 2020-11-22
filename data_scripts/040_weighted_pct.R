@@ -1,10 +1,10 @@
 source("data_scripts/000_includes.R")
 
-load("workdata/wfh.RData")
+load("workdata/wfh_wv.RData")
 
 annotations <- read_parquet('master_data/mt_data_avg.parquet')
 
-wfh %>% 
+wfh_wv %>% 
   group_by(yrkeskode) %>% 
   summarize(antall = n()) %>% 
   filter(antall>=3) -> nonminor_ads_iscos
@@ -16,7 +16,7 @@ annotations %>%
   filter(ISCO %in% nonminor_iscos) -> nonminor_annotations
 
 
-wfh %>%
+wfh_wv %>%
   mutate(ISCO1 = substr(yrkeskode,1 ,1),
          antall_stillinger = as.numeric(antall_stillinger)) %>%
   mutate(antall_stillinger = replace_na(antall_stillinger, 1)) %>%
@@ -50,11 +50,13 @@ weighted_st1_stats %>%
   tab_spanner(
     columns = vars(relative_prob_annotations, relative_prob_ads),
     label="Relative remote frequency"
-  ) %>%
-  as_latex()  %>% 
-  as.character() %>% 
-  cat
+  ) 
+
+# %>%
+#   as_latex()  %>% 
+#   as.character() %>% 
+#   cat
 
 
-
-
+write_delim(wfh_wv, "workdata/wfh_wv.csv", delim='|')
+write_feather(wfh_wv, "workdata/wfh_wv.feather")
