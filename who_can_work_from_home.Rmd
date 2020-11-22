@@ -4,8 +4,8 @@ output:
     citation_package: natbib
     keep_tex: true
     fig_caption: true
-    latex_engine: pdflatex
-    template: svm-latex-ms.tex
+    # latex_engine: pdflatex
+    # template: article.tex
 bibliography: wfh.bib
 header-includes:
   -  \usepackage{hyperref}
@@ -97,12 +97,36 @@ The respondent was asked to evaluate wether it was likely that the job could be 
 
 3. *Unknown: There is not enough information to decide*
 
-In order to reduce the serendipity in the labels, we acquired five labels
-from different respondents for each occupation, and we provided an
-`uncertain` option in addition to the `yes/no` options in order to
-reduce arbitrary responses to uninformative occupation descriptions. The final labels include an uncertainty measure which shows that some of the occupations were evaluated differently by different annotators, but no occupation was given a final label of "Unknown" which means we can treat the remote-friendly annotation as a binary variable.
+In order to reduce the serendipity in the labels, we acquired five labels from different respondents for each occupation, and we provided an `uncertain` option in addition to the `yes/no` options in order to reduce arbitrary responses to uninformative occupation descriptions. The final labels include an uncertainty measure which shows that some of the occupations were evaluated differently by different annotators, but no occupation was given a final label of "Unknown" which means we can treat the remote-friendly annotation as a binary variable.
 
 Since the job was on Mechanical Turk, there respondents were not subject matter experts, and likely reside in different countries. This adds to the importance of obtaining more than one label per occupation, but the number of labels does not correct for possible cultural differences - it is possible that some jobs that cannot be performed remotely in other countries can be performed remotely in Norway. We should consider the annotations as `international`, which is also true for the ISCO-08 standard itself.
+
+The initial results showed that for 77% of occupations, there were at least four concurrences. The remaining approximately 23% of occupations were more contested. There may be several reasons for this lack of quorum, one welcome and two unwelcome:
+
+1. There are real differences in opinion as to wether a job can be done from home.
+2. Workers are opportunistic, answering at random to minimize time spent on each task.
+3. The information provided was insufficient, leaving workers to fill in the blanks themselves.
+
+Real differences in judgement may be informative and increase our measure accuracy by incorporating several experiences and views on remote feasibility. The two other reasons for lack of quorum can be combatted by collecting more labels and by providing a better description of a job.
+
+The occupations with a clear lack of quorum are annotated twice more, using two different MTurk panels. One panel of 10 workers who all are "masters" according to MTurk (a simple albeit vague checkbox indicating a high acceptance rate), and a panel of 5 workers who in addition to being "masters" have an task acceptance rate above 80 % (meaning that at least 80 % of their work has been accepted by other requesters). The threshold of 80 % was chosen mostly at random, but somewhat informed by comments on mturk user boards. In addition, one of the authors made separate annotation on the dataset.
+
+The explanatory text on these rounds of annotation included the full description of the occupation, including descriptions of actual tasks. Due to the increase in text to read, the reward for workers was increased.
+
+Neither of the rounds of MTurk annotation yielded any significant level of consensus among the workers - the consensus was only marginally better than what we could have expected from a bootstrap resampling of the original data.
+
+By carefully reviewing and annotating the selected occupation descriptions, some causes of ambiguity stands out:
+1. Some jobs may or may not be performed from home depending on the home. Sowing, woodworking and similar types of craft can plausibly be done from home provided the home is spacious and properly equipped. On a longer time-horizon this may be plausible to many, while few may be able to bring this type of work home on short notice.
+2. Some jobs can be done from home for a short while, postponing in-person meetings until a later time.
+3. Some jobs can be done from home, but with a lower quality result. A perhaps poignant example are teachers, who have shown an ability to teach via video even in lower elementary education, but few parents would agree that this is an acceptable long-term or even medium-term solution.
+4. Some jobs are very dependent on the technology in use at an employer. Filing clerks may have to stay in the office if filing is mostly on paper, but as more and more documents are digital only, such jobs may be done from home. The same is true for certain types of systems administrators in IT: If they are responsible for on-premise datacenters they may have to be physically present, while if they are using cloud-computing there are no physical servers to access.
+
+Naturally, noise is still a factor: One may ponder how in all three rounds of MTurk annotation at least one worker submitted that a prison guard could work from home.
+
+Lastly, a note on layman vs expert opinions. It is obvious that the workers performing the classifications are not labor market subject matter experts, and so the results are not authorative in reflecting the intention and original meaning from the creators of ISCO. For our purposes, this may only be a minor inconvenience, as we compare the annotations to occupational labels largely assigned by employers around Norway as part of their monthly tax reporting.
+
+
+
 
 ## Consistency check using the job announcements data
 
@@ -156,6 +180,12 @@ syss_total %>%
   ungroup() %>% 
   mutate(ISCO1=isco_labels[ISCO1]) -> syss_isco1_table
 
+syss_total %>% 
+summarize(antall = sum(antall),
+          remote_antall = sum(remote_count),
+  remote_pct = sum(remote_count)/sum(antall)) %>%
+gt()
+  
 syss_isco1_table %>% 
   gt() %>% 
   tab_spanner(
@@ -306,19 +336,18 @@ syss_total_komm %>%
 
 
 syss_total_komm %>% 
-  dplyr::select(-kommnr) %>% 
+  dplyr::select(-kommnr, -remote_antall) %>% 
   mutate(remote_pct = remote_pct/100) %>% 
   arrange(remote_pct) %>% 
   head(n=5) %>% 
   gt() %>% 
   #tab_header(title="The 5 bottom remote friendly municipalities in Norway") %>% 
     tab_spanner(
-    columns = vars(antall, remote_antall),
+    columns = vars(antall),
     label="Number of jobs"
   ) %>%
   cols_label(kommnavn = "Municipality",
              antall = "Total",
-             remote_antall = "Remote-friendly",
              remote_pct = "Percent remote friendly"
              ) %>% 
   fmt_percent(columns=vars(remote_pct), decimals = 1, dec_mark = "," ) %>% 

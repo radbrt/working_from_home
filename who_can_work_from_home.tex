@@ -1,45 +1,41 @@
+\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+\PassOptionsToPackage{hyphens}{url}
+%
 \documentclass[11pt,]{article}
-\usepackage[left=1in,top=1in,right=1in,bottom=1in]{geometry}
-\newcommand*{\authorfont}{\fontfamily{phv}\selectfont}
 \usepackage[]{mathpazo}
-
-
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
-
-
-
-
-\usepackage{abstract}
-\renewcommand{\abstractname}{}    % clear the title
-\renewcommand{\absnamepos}{empty} % originally center
-
-\renewenvironment{abstract}
- {{%
-    \setlength{\leftmargin}{0mm}
-    \setlength{\rightmargin}{\leftmargin}%
-  }%
-  \relax}
- {\endlist}
-
-\makeatletter
-\def\@maketitle{%
-  \newpage
-%  \null
-%  \vskip 2em%
-%  \begin{center}%
-  \let \footnote \thanks
-    {\fontsize{18}{20}\selectfont\raggedright  \setlength{\parindent}{0pt} \@title \par}%
+  \usepackage{textcomp} % provides euro and other symbols
+\else % if luatex or xelatex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage[]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
 }
-%\fi
-\makeatother
-
-
-
-
-\setcounter{secnumdepth}{0}
-
-
+\usepackage{hyperref}
+\hypersetup{
+            pdftitle={Working from home: estimations without surveys},
+            pdfkeywords={Covid-19, Working from home, Job advertisements, Unconventional data,
+Norway},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage[margin=1in]{geometry}
 \usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -49,35 +45,19 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-
-
-\title{Working from home: estimations without surveys \thanks{TBD}  }
-
-
-
-\author{\Large Henning Holgersen\vspace{0.05in} \newline\normalsize\emph{Statistics Norway}   \and \Large Zhiyang Jia\vspace{0.05in} \newline\normalsize\emph{Statistics Norway}   \and \Large Simen Svenkerud\vspace{0.05in} \newline\normalsize\emph{Statistics Norway}  }
-
-
-\date{}
-
-\usepackage{titlesec}
-
-\titleformat*{\section}{\normalsize\bfseries}
-\titleformat*{\subsection}{\normalsize\itshape}
-\titleformat*{\subsubsection}{\normalsize\itshape}
-\titleformat*{\paragraph}{\normalsize\itshape}
-\titleformat*{\subparagraph}{\normalsize\itshape}
-
-
-\usepackage{natbib}
-\bibliographystyle{apsr}
-\usepackage[strings]{underscore} % protect underscores in most circumstances
-
-
-
-\newtheorem{hypothesis}{Hypothesis}
-\usepackage{setspace}
-
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
 
 % set default figure placement to htbp
 \makeatletter
@@ -86,90 +66,17 @@
 
 \usepackage{hyperref}
 \usepackage{}
+\usepackage[]{natbib}
+\bibliographystyle{apsr}
 
-% move the hyperref stuff down here, after header-includes, to allow for - \usepackage{hyperref}
-
-\makeatletter
-\@ifpackageloaded{hyperref}{}{%
-\ifxetex
-  \PassOptionsToPackage{hyphens}{url}\usepackage[setpagesize=false, % page size defined by xetex
-              unicode=false, % unicode breaks when used with xetex
-              xetex]{hyperref}
-\else
-  \PassOptionsToPackage{hyphens}{url}\usepackage[draft,unicode=true]{hyperref}
-\fi
-}
-
-\@ifpackageloaded{color}{
-    \PassOptionsToPackage{usenames,dvipsnames}{color}
-}{%
-    \usepackage[usenames,dvipsnames]{color}
-}
-\makeatother
-\hypersetup{breaklinks=true,
-            bookmarks=true,
-            pdfauthor={Henning Holgersen (Statistics Norway) and Zhiyang Jia (Statistics Norway) and Simen Svenkerud (Statistics Norway)},
-             pdfkeywords = {Covid-19, Working from home, Job advertisements, Unconventional data,
-Norway},  
-            pdftitle={Working from home: estimations without surveys},
-            colorlinks=true,
-            citecolor=blue,
-            urlcolor=blue,
-            linkcolor=magenta,
-            pdfborder={0 0 0}}
-\urlstyle{same}  % don't use monospace font for urls
-
-% Add an option for endnotes. -----
-
-
-% add tightlist ----------
-\providecommand{\tightlist}{%
-\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-
-% add some other packages ----------
-
-% \usepackage{multicol}
-% This should regulate where figures float
-% See: https://tex.stackexchange.com/questions/2275/keeping-tables-figures-close-to-where-they-are-mentioned
-\usepackage[section]{placeins}
-
+\title{Working from home: estimations without surveys\thanks{TBD}}
+\author{true \and true \and true}
+\date{November 22, 2020}
 
 \begin{document}
-	
-% \pagenumbering{arabic}% resets `page` counter to 1 
-%
-% \maketitle
-
-{% \usefont{T1}{pnc}{m}{n}
-\setlength{\parindent}{0pt}
-\thispagestyle{plain}
-{\fontsize{18}{20}\selectfont\raggedright 
-\maketitle  % title \par  
-
-}
-
-{
-   \vskip 13.5pt\relax \normalsize\fontsize{11}{12} 
-\textbf{\authorfont Henning Holgersen} \hskip 15pt \emph{\small Statistics Norway}   \par \textbf{\authorfont Zhiyang Jia} \hskip 15pt \emph{\small Statistics Norway}   \par \textbf{\authorfont Simen Svenkerud} \hskip 15pt \emph{\small Statistics Norway}   
-
-}
-
-}
-
-
-
-
-
-
-
-
+\maketitle
 \begin{abstract}
-
-    \hbox{\vrule height .2pt width 39.14pc}
-
-    \vskip 8.5pt % \small 
-
-\noindent The COVID-19 crisis has forced great societal changes, including forcing
+The COVID-19 crisis has forced great societal changes, including forcing
 many to work remotely (work from home) in an effort to increase social
 distancing. The ability to work from home has long been considered a
 perk, but we have few estimates of how many are actually able to work
@@ -182,24 +89,7 @@ remotely by combining register-based labor statistics, annotated job ads
 and the official documentation of the ISCO-08 standard which is used
 both in labor statistics and in the job ads. We find that approximately
 36 \% of Norwegian jobs can be performed at home.
-
-
-\vskip 8.5pt \noindent \emph{Keywords}: Covid-19, Working from home, Job advertisements, Unconventional data,
-Norway \par
-
-    \hbox{\vrule height .2pt width 39.14pc}
-
-
-
 \end{abstract}
-
-
-\vskip -8.5pt
-
-
- % removetitleabstract
-
-\noindent  
 
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
@@ -244,7 +134,7 @@ characteristics of workers with such jobs. With help of the employment
 register, this can be done not only on national level but also on
 smaller geographical areas: for example, on municipalities.
 
-We find that approximately 39 \% of Norwegian jobs can be performed at
+We find that approximately 37 \% of Norwegian jobs can be performed at
 home. As we expected, remote friendly jobs are often paid better than
 non-remote friendly jobs. There are large geographical differences in
 the prevalence of remote friendly jobs. There are larger share of remote
@@ -342,6 +232,83 @@ countries can be performed remotely in Norway. We should consider the
 annotations as \texttt{international}, which is also true for the
 ISCO-08 standard itself.
 
+The initial results showed that for 77\% of occupations, there were at
+least four concurrences. The remaining approximately 23\% of occupations
+were more contested. There may be several reasons for this lack of
+quorum, one welcome and two unwelcome:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  There are real differences in opinion as to wether a job can be done
+  from home.
+\item
+  Workers are opportunistic, answering at random to minimize time spent
+  on each task.
+\item
+  The information provided was insufficient, leaving workers to fill in
+  the blanks themselves.
+\end{enumerate}
+
+Real differences in judgement may be informative and increase our
+measure accuracy by incorporating several experiences and views on
+remote feasibility. The two other reasons for lack of quorum can be
+combatted by collecting more labels and by providing a better
+description of a job.
+
+The occupations with a clear lack of quorum are annotated twice more,
+using two different MTurk panels. One panel of 10 workers who all are
+``masters'' according to MTurk (a simple albeit vague checkbox
+indicating a high acceptance rate), and a panel of 5 workers who in
+addition to being ``masters'' have an task acceptance rate above 80 \%
+(meaning that at least 80 \% of their work has been accepted by other
+requesters). The threshold of 80 \% was chosen mostly at random, but
+somewhat informed by comments on mturk user boards. In addition, one of
+the authors made separate annotation on the dataset.
+
+The explanatory text on these rounds of annotation included the full
+description of the occupation, including descriptions of actual tasks.
+Due to the increase in text to read, the reward for workers was
+increased.
+
+Neither of the rounds of MTurk annotation yielded any significant level
+of consensus among the workers - the consensus was only marginally
+better than what we could have expected from a bootstrap resampling of
+the original data.
+
+By carefully reviewing and annotating the selected occupation
+descriptions, some causes of ambiguity stands out: 1. Some jobs may or
+may not be performed from home depending on the home. Sowing,
+woodworking and similar types of craft can plausibly be done from home
+provided the home is spacious and properly equipped. On a longer
+time-horizon this may be plausible to many, while few may be able to
+bring this type of work home on short notice. 2. Some jobs can be done
+from home for a short while, postponing in-person meetings until a later
+time. 3. Some jobs can be done from home, but with a lower quality
+result. A perhaps poignant example are teachers, who have shown an
+ability to teach via video even in lower elementary education, but few
+parents would agree that this is an acceptable long-term or even
+medium-term solution. 4. Some jobs are very dependent on the technology
+in use at an employer. Filing clerks may have to stay in the office if
+filing is mostly on paper, but as more and more documents are digital
+only, such jobs may be done from home. The same is true for certain
+types of systems administrators in IT: If they are responsible for
+on-premise datacenters they may have to be physically present, while if
+they are using cloud-computing there are no physical servers to access.
+
+Naturally, noise is still a factor: One may ponder how in all three
+rounds of MTurk annotation at least one worker submitted that a prison
+guard could work from home.
+
+Lastly, a note on layman vs expert opinions. It is obvious that the
+workers performing the classifications are not labor market subject
+matter experts, and so the results are not authorative in reflecting the
+intention and original meaning from the creators of ISCO. For our
+purposes, this may only be a minor inconvenience, as we compare the
+annotations to occupational labels largely assigned by employers around
+Norway as part of their monthly tax reporting.
+
 \hypertarget{consistency-check-using-the-job-announcements-data}{%
 \subsection{Consistency check using the job announcements
 data}\label{consistency-check-using-the-job-announcements-data}}
@@ -407,12 +374,12 @@ from home.
 
 From the Mechanical Turk annotations we see that 34 per cent of the
 occupations can likely be performed from home. Taken together with the
-labor statistics per occupation, we find that 974 817 jobs, 39 per cent
+labor statistics per occupation, we find that 939 898 jobs, 37 per cent
 of the workforce, are likely able to work from home.
 
 From the Mechanical Turk annotations, around 34 per cent of the
 occupations can likely be performed from home. Taken together with the
-labor statistics per occupation, we find that 974 817 wage employees, 39
+labor statistics per occupation, we find that 939 898 wage employees, 37
 per cent of the workforce, are likely able to work from home.
 
 Splitting the annotated data into occupational groups, we estimate what
@@ -432,14 +399,14 @@ likely able to do their jobs from home.
 ##  \cmidrule(lr){2-3}
 ## Occupational Group & Total & Remote-friendly & Percent remote friendly \\ 
 ## \midrule
-## Managers & $222 678$ & $148 891$ & $66,9\%$ \\ 
-## Academics & $652 356$ & $320 020$ & $49,1\%$ \\ 
-## Technicians and associate professionals & $374 858$ & $151 153$ & $40,3\%$ \\ 
-## clerical support workers & $169 230$ & $105 469$ & $62,3\%$ \\ 
-## Service and sales workers & $573 415$ & $195 888$ & $34,2\%$ \\ 
-## Skilled agricultural, forestry and fishery workers & $21 631$ & $3 735$ & $17,3\%$ \\ 
-## Craft and related trades workers & $219 843$ & $36 196$ & $16,5\%$ \\ 
-## Plant and machine operators and assemblers & $163 197$ & $11 207$ & $6,9\%$ \\ 
+## Managers & $222 678$ & $146 344$ & $65,7\%$ \\ 
+## Academics & $652 356$ & $330 783$ & $50,7\%$ \\ 
+## Technicians and associate professionals & $374 858$ & $159 296$ & $42,5\%$ \\ 
+## clerical support workers & $169 230$ & $106 668$ & $63,0\%$ \\ 
+## Service and sales workers & $573 415$ & $153 136$ & $26,7\%$ \\ 
+## Skilled agricultural, forestry and fishery workers & $21 631$ & $3 671$ & $17,0\%$ \\ 
+## Craft and related trades workers & $219 843$ & $26 367$ & $12,0\%$ \\ 
+## Plant and machine operators and assemblers & $163 197$ & $11 374$ & $7,0\%$ \\ 
 ## Elementary Occupations & $134 400$ & $2 259$ & $1,7\%$ \\ 
 ## \bottomrule
 ## \end{longtable}
@@ -460,9 +427,9 @@ and non-remote Craft and related trades workers is much larger.
 ## \toprule
 ## Remote probability & \# of ocupations & \# of jobs & Average earnings & Median earnings \\ 
 ## \midrule
-## High (>0.8) & $44$ & $358 711$ & $55 945$ & $47 763$ \\ 
-## Medium (0.2 - 0.8) & $115$ & $925 782$ & $45 595$ & $42 461$ \\ 
-## Low (<0.2) & $204$ & $1 498 682$ & $43 387$ & $40 983$ \\ 
+## High (>0.8) & $50$ & $406 745$ & $55 374$ & $48 754$ \\ 
+## Medium (0.2 - 0.8) & $108$ & $877 310$ & $45 300$ & $41 867$ \\ 
+## Low (<0.2) & $205$ & $1 499 120$ & $43 384$ & $40 973$ \\ 
 ## \bottomrule
 ## \end{longtable}
 \end{verbatim}
@@ -499,11 +466,11 @@ on the map.
 ##  \cmidrule(lr){2-3}
 ## Municipality & Total & Remote-friendly & Percent remote friendly \\ 
 ## \midrule
-## Oppegård & $12 964$ & $5 814$ & $44,9\%$ \\ 
-## Bærum & $60 596$ & $26 935$ & $44,4\%$ \\ 
-## Asker & $28 960$ & $12 761$ & $44,1\%$ \\ 
-## Oslo & $344 149$ & $147 810$ & $42,9\%$ \\ 
-## Frogn & $7 308$ & $3 134$ & $42,9\%$ \\ 
+## Oppegård & $12 964$ & $5 743$ & $44,3\%$ \\ 
+## Bærum & $60 596$ & $26 578$ & $43,9\%$ \\ 
+## Asker & $28 960$ & $12 544$ & $43,3\%$ \\ 
+## Oslo & $344 149$ & $145 368$ & $42,2\%$ \\ 
+## Frogn & $7 308$ & $3 051$ & $41,8\%$ \\ 
 ## \bottomrule
 ## \end{longtable}
 \end{verbatim}
@@ -516,11 +483,11 @@ on the map.
 ##  \cmidrule(lr){2-3}
 ## Municipality & Total & Remote-friendly & Percent remote friendly \\ 
 ## \midrule
-## Båtsfjord & $1 023$ & $280$ & $27,4\%$ \\ 
-## Torsken & $373$ & $103$ & $27,6\%$ \\ 
-## Stranda & $2 318$ & $661$ & $28,5\%$ \\ 
-## Frøya & $2 494$ & $711$ & $28,5\%$ \\ 
-## Sørfold & $842$ & $243$ & $28,9\%$ \\ 
+## Båtsfjord & $1 023$ & $263$ & $25,7\%$ \\ 
+## Torsken & $373$ & $96$ & $25,7\%$ \\ 
+## Sørfold & $842$ & $226$ & $26,9\%$ \\ 
+## Stranda & $2 318$ & $625$ & $27,0\%$ \\ 
+## Frøya & $2 494$ & $673$ & $27,0\%$ \\ 
 ## \bottomrule
 ## \end{longtable}
 \end{verbatim}
@@ -565,12 +532,12 @@ countries, with Switzerland and Luxembourg topping the list.
 ##  \cmidrule(lr){2-3}
 ## Country & Total & Remote-friendly & Percent \\ 
 ## \midrule
-## Switzerland & $4 477$ & $1 795$ & $40.10\%$ \\ 
-## United Kingdom & $30 943$ & $12 208$ & $39.45\%$ \\ 
-## Norway & $2 565$ & $1 000$ & $38.98\%$ \\ 
-## Luxembourg & $267$ & $104$ & $38.83\%$ \\ 
-## Malta & $233$ & $90$ & $38.50\%$ \\ 
-## Sweden & $4 888$ & $1 877$ & $38.39\%$ \\ 
+## Switzerland & $4 477$ & $1 761$ & $39.34\%$ \\ 
+## Luxembourg & $267$ & $103$ & $38.82\%$ \\ 
+## United Kingdom & $30 943$ & $11 880$ & $38.39\%$ \\ 
+## Norway & $2 565$ & $967$ & $37.68\%$ \\ 
+## Sweden & $4 888$ & $1 830$ & $37.44\%$ \\ 
+## Malta & $233$ & $86$ & $37.13\%$ \\ 
 ## \bottomrule
 ## \end{longtable}
 \end{verbatim}
@@ -586,12 +553,12 @@ remote-eligible jobs are mostly poorer countries in southeast europe.
 ##  \cmidrule(lr){2-3}
 ## Country & Total & Remote-friendly & Percent \\ 
 ## \midrule
-## Romania & $8 312$ & $2 208$ & $26.57\%$ \\ 
-## Turkey & $27 882$ & $7 741$ & $27.76\%$ \\ 
-## North Macedonia & $742$ & $207$ & $27.95\%$ \\ 
-## Serbia & $2 671$ & $798$ & $29.86\%$ \\ 
-## Hungary & $4 398$ & $1 343$ & $30.54\%$ \\ 
-## Bulgaria & $3 046$ & $934$ & $30.68\%$ \\ 
+## Romania & $8 312$ & $2 077$ & $24.99\%$ \\ 
+## Turkey & $27 882$ & $7 238$ & $25.96\%$ \\ 
+## North Macedonia & $742$ & $197$ & $26.54\%$ \\ 
+## Serbia & $2 671$ & $765$ & $28.64\%$ \\ 
+## Bulgaria & $3 046$ & $883$ & $28.98\%$ \\ 
+## Hungary & $4 398$ & $1 290$ & $29.34\%$ \\ 
 ## \bottomrule
 ## \end{longtable}
 \end{verbatim}
@@ -620,15 +587,15 @@ groups, giving us a measure that is directly comparable.
 ##  \cmidrule(lr){2-3}
 ## Occupational group & Annotations & Job ads & Difference \\ 
 ## \midrule
-## Managers & $4,1\%$ & $4,5\%$ & $-0,4\%$ \\ 
-## Academics & $66,5\%$ & $49,9\%$ & $16,6\%$ \\ 
-## Assc. professionals & $13,1\%$ & $32,2\%$ & $-19,1\%$ \\ 
-## Clerics & $3,5\%$ & $5,3\%$ & $-1,8\%$ \\ 
-## Service workers & $6,4\%$ & $6,9\%$ & $-0,6\%$ \\ 
+## Managers & $3,9\%$ & $3,1\%$ & $0,8\%$ \\ 
+## Academics & $67,6\%$ & $48,0\%$ & $19,6\%$ \\ 
+## Assc. professionals & $13,3\%$ & $27,2\%$ & $-13,9\%$ \\ 
+## Clerics & $3,5\%$ & $9,9\%$ & $-6,4\%$ \\ 
+## Service workers & $5,8\%$ & $9,1\%$ & $-3,3\%$ \\ 
 ## Agricultural workers & $0,0\%$ & $0,0\%$ & $0,0\%$ \\ 
-## Craft workers & $5,6\%$ & $0,9\%$ & $4,7\%$ \\ 
-## NA & $0,5\%$ & $0,1\%$ & $0,3\%$ \\ 
-## NA & $0,2\%$ & $0,0\%$ & $0,2\%$ \\ 
+## Craft workers & $5,2\%$ & $1,2\%$ & $4,0\%$ \\ 
+## NA & $0,5\%$ & $1,4\%$ & $-1,0\%$ \\ 
+## NA & $0,2\%$ & $0,1\%$ & $0,2\%$ \\ 
 ## \bottomrule
 ## \end{longtable}
 \end{verbatim}
@@ -714,7 +681,6 @@ working from home. Job ads are a great resource for describing actual
 jobs and what they entail, although the picture the advertisements paint
 might be a little rosy.
 
-\newpage
-\singlespacing 
 \bibliography{wfh.bib}
+
 \end{document}
